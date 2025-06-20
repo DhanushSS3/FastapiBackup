@@ -104,12 +104,9 @@ async def calculate_single_order_margin(
     external_symbol_info: Dict[str, Any],
     raw_market_data: Dict[str, Any],
     db: AsyncSession = None,
-    user_id: int = None
+    user_id: int = None,
+    order_price: Decimal = None
 ) -> Tuple[Decimal, Decimal, Decimal, Decimal]:
-    """
-    IMPORTANT: The user_leverage parameter should be a reasonable value (typically 100 or 200).
-    If a value of 1 is passed, this function will attempt to get the actual leverage from the user's data.
-    """
     """
     Calculate margin for a single order based on order details and market data.
     
@@ -124,6 +121,7 @@ async def calculate_single_order_margin(
         raw_market_data: Raw market data
         db: Database session (optional, needed for currency conversion)
         user_id: User ID (optional, needed for currency conversion)
+        order_price: Optional order price to use for margin calculation
         
     Returns:
         Tuple of (margin, price, contract_value, commission)
@@ -149,65 +147,69 @@ async def calculate_single_order_margin(
         contract_size = Decimal(str(contract_size_raw))
         orders_logger.info(f"[MARGIN_CALC] Contract size for {symbol}: {contract_size} (raw: {contract_size_raw}, type: {type(contract_size_raw)})")
         
-        # Get appropriate price based on order type
+        # Use order_price if provided, otherwise get appropriate price based on order type
         price = None
-        # Get user_group_name from the group_settings
-        user_group_name = group_settings.get('group_name', 'default')
-        
-        if order_type in ['BUY', 'BUY_LIMIT', 'BUY_STOP']:
-            # For buy orders, use the ask price
-            try:
-                price_data = await get_live_adjusted_buy_price_for_pair(redis_client, symbol, user_group_name)
-                if price_data:
-                    price = Decimal(str(price_data))
-                    orders_logger.info(f"[MARGIN_CALC] Got BUY price for {symbol} from cache: {price}")
-            except Exception as e:
-                orders_logger.error(f"[MARGIN_CALC] Error getting BUY price from cache: {e}")
-        elif order_type in ['SELL', 'SELL_LIMIT', 'SELL_STOP']:
-            # For sell orders, use the bid price
-            try:
-                price_data = await get_live_adjusted_sell_price_for_pair(redis_client, symbol, user_group_name)
-                if price_data:
-                    price = Decimal(str(price_data))
-                    orders_logger.info(f"[MARGIN_CALC] Got SELL price for {symbol} from cache: {price}")
-            except Exception as e:
-                orders_logger.error(f"[MARGIN_CALC] Error getting SELL price from cache: {e}")
-        
-        # If we couldn't get a price from the cache, try to get it from raw market data
-        if price is None:
-            orders_logger.info(f"[MARGIN_CALC] No price in cache for {symbol}, checking raw market data")
-            if symbol in raw_market_data:
-                symbol_data = raw_market_data[symbol]
-                orders_logger.info(f"[MARGIN_CALC] Raw market data for {symbol}: {symbol_data}")
-                if order_type in ['BUY', 'BUY_LIMIT', 'BUY_STOP']:
-                    price_raw = symbol_data.get('ask', '0')
-                    price = Decimal(str(price_raw))
-                    orders_logger.info(f"[MARGIN_CALC] Using raw ask price for {symbol}: {price} (raw: {price_raw})")
-                else:
-                    price_raw = symbol_data.get('bid', '0')
-                    price = Decimal(str(price_raw))
-                    orders_logger.info(f"[MARGIN_CALC] Using raw bid price for {symbol}: {price} (raw: {price_raw})")
+        if order_price is not None:
+            price = order_price
+            orders_logger.info(f"[MARGIN_CALC] Using provided order price for {symbol}: {price}")
+        else:
+            # Get user_group_name from the group_settings
+            user_group_name = group_settings.get('group_name', 'default')
             
-            # If we still don't have a price, try last known price from cache
-        if price is None or price == Decimal('0'):
-            try:
-                orders_logger.warning(f"[MARGIN_CALC] No price from market data for {symbol}, trying last known price")
-                last_price = await get_last_known_price(redis_client, symbol)
-                if last_price:
+            if order_type in ['BUY', 'BUY_LIMIT', 'BUY_STOP']:
+                # For buy orders, use the ask price
+                try:
+                    price_data = await get_live_adjusted_buy_price_for_pair(redis_client, symbol, user_group_name)
+                    if price_data:
+                        price = Decimal(str(price_data))
+                        orders_logger.info(f"[MARGIN_CALC] Got BUY price for {symbol} from cache: {price}")
+                except Exception as e:
+                    orders_logger.error(f"[MARGIN_CALC] Error getting BUY price from cache: {e}")
+            elif order_type in ['SELL', 'SELL_LIMIT', 'SELL_STOP']:
+                # For sell orders, use the bid price
+                try:
+                    price_data = await get_live_adjusted_sell_price_for_pair(redis_client, symbol, user_group_name)
+                    if price_data:
+                        price = Decimal(str(price_data))
+                        orders_logger.info(f"[MARGIN_CALC] Got SELL price for {symbol} from cache: {price}")
+                except Exception as e:
+                    orders_logger.error(f"[MARGIN_CALC] Error getting SELL price from cache: {e}")
+            
+            # If we couldn't get a price from the cache, try to get it from raw market data
+            if price is None:
+                orders_logger.info(f"[MARGIN_CALC] No price in cache for {symbol}, checking raw market data")
+                if symbol in raw_market_data:
+                    symbol_data = raw_market_data[symbol]
+                    orders_logger.info(f"[MARGIN_CALC] Raw market data for {symbol}: {symbol_data}")
                     if order_type in ['BUY', 'BUY_LIMIT', 'BUY_STOP']:
-                        price_raw = last_price.get('o', last_price.get('ask', '0'))
+                        price_raw = symbol_data.get('ask', '0')
+                        price = Decimal(str(price_raw))
+                        orders_logger.info(f"[MARGIN_CALC] Using raw ask price for {symbol}: {price} (raw: {price_raw})")
                     else:
-                        price_raw = last_price.get('b', last_price.get('bid', '0'))
-                    
-                    price = Decimal(str(price_raw))
-                    orders_logger.info(f"[MARGIN_CALC] Using last known price for {symbol}: {price}")
-            except Exception as e:
-                orders_logger.error(f"[MARGIN_CALC] Error getting last known price: {e}")
-            
-            # If we still don't have a price, log an error and return zeros
-            if price is None or price == Decimal('0'):
-                orders_logger.error(f"[MARGIN_CALC] Could not get any price for {symbol} {order_type} order")
-                return None, None, None, None
+                        price_raw = symbol_data.get('bid', '0')
+                        price = Decimal(str(price_raw))
+                        orders_logger.info(f"[MARGIN_CALC] Using raw bid price for {symbol}: {price} (raw: {price_raw})")
+                
+                # If we still don't have a price, try last known price from cache
+                if price is None or price == Decimal('0'):
+                    try:
+                        orders_logger.warning(f"[MARGIN_CALC] No price from market data for {symbol}, trying last known price")
+                        last_price = await get_last_known_price(redis_client, symbol)
+                        if last_price:
+                            if order_type in ['BUY', 'BUY_LIMIT', 'BUY_STOP']:
+                                price_raw = last_price.get('o', last_price.get('ask', '0'))
+                            else:
+                                price_raw = last_price.get('b', last_price.get('bid', '0'))
+                            
+                            price = Decimal(str(price_raw))
+                            orders_logger.info(f"[MARGIN_CALC] Using last known price for {symbol}: {price}")
+                    except Exception as e:
+                        orders_logger.error(f"[MARGIN_CALC] Error getting last known price: {e}")
+                
+                # If we still don't have a price, log an error and return zeros
+                if price is None or price == Decimal('0'):
+                    orders_logger.error(f"[MARGIN_CALC] Could not get any price for {symbol} {order_type} order")
+                    return None, None, None, None
         
         # Calculate contract value using the CORRECT formula
         # Contract value = contract_size * quantity (without price)

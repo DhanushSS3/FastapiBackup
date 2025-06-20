@@ -23,3 +23,51 @@
 2025-06-18 02:12:44,562 - INFO - firebase_comm - OUTGOING ORDER DATA: {"order_id": "8489660818", "order_user_id": 4, "order_company_name": "AUDCAD", "order_type": "BUY", "order_status": "PROCESSING", "order_price": "0.88804000", "order_quantity": "1.00000000", "contract_value": "100000.00000000", "margin": "649.76476356", "stop_loss": null, "take_profit": null, "status": "OPEN"}
 2025-06-18 02:12:44,562 - INFO - firebase_comm - FIREBASE PUSH: trade_data/live - {"order_id": "8489660818", "order_user_id": "4", "order_company_name": "AUDCAD", "order_type": "BUY", "order_status": "PROCESSING", "order_price": "0.88804000", "order_quantity": "1.00000000", "contract_value": "100000.00000000", "margin": "649.76476356", "stop_loss": "", "take_profit": "", "close_price": "", "net_profit": "", "swap": "", "commission": "", "cancel_message": "", "close_message": "", "takeprofit_id": "", "stoploss_id": "", "cancel_id": "", "close_id": "", "modify_id": "", "stoploss_cancel_id": "", "takeprofit_cancel_id": "", "status": "OPEN", "timestamp": "2025-06-18T09:12:44.562656", "account_type": "live", "action": ""}
 2025-06-18 02:12:44,974 - INFO - firebase_comm - FIREBASE PUSH RESULT: Key=-OT1IyWO52317rr-Xz9m
+2025-06-20 00:29:05,642 - DEBUG - firebase_comm - FIREBASE GET: datafeeds (all symbols)
+2025-06-20 00:29:06,001 - DEBUG - firebase_comm - FIREBASE RESPONSE: datafeeds - received data for 49 symbols
+2025-06-20 00:41:36,414 - DEBUG - firebase_comm - FIREBASE GET: datafeeds (all symbols)
+2025-06-20 00:41:37,090 - DEBUG - firebase_comm - FIREBASE RESPONSE: datafeeds - received data for 49 symbols
+2025-06-20 00:41:50,060 - DEBUG - firebase_comm - FIREBASE GET: datafeeds (all symbols)
+2025-06-20 00:41:50,402 - DEBUG - firebase_comm - FIREBASE RESPONSE: datafeeds - received data for 49 symbols
+2025-06-20 00:41:57,805 - DEBUG - firebase_comm - FIREBASE GET: datafeeds (all symbols)
+2025-06-20 00:41:58,182 - DEBUG - firebase_comm - FIREBASE RESPONSE: datafeeds - received data for 49 symbols
+2025-06-20 00:53:52,423 - DEBUG - firebase_comm - FIREBASE GET: datafeeds (all symbols)
+2025-06-20 00:53:52,823 - DEBUG - firebase_comm - FIREBASE RESPONSE: datafeeds - received data for 49 symbols
+2025-06-20 00:59:39,114 - DEBUG - firebase_comm - FIREBASE GET: datafeeds (all symbols)
+2025-06-20 00:59:39,447 - DEBUG - firebase_comm - FIREBASE RESPONSE: datafeeds - received data for 49 symbols
+2025-06-20 01:01:02,890 - DEBUG - firebase_comm - FIREBASE GET: datafeeds (all symbols)
+2025-06-20 01:01:03,622 - DEBUG - firebase_comm - FIREBASE RESPONSE: datafeeds - received data for 49 symbols
+2025-06-20 01:03:06,328 - DEBUG - firebase_comm - FIREBASE GET: datafeeds (all symbols)
+2025-06-20 01:03:07,005 - DEBUG - firebase_comm - FIREBASE RESPONSE: datafeeds - received data for 49 symbols
+2025-06-20 01:03:57,318 - DEBUG - firebase_comm - FIREBASE GET: datafeeds (all symbols)
+2025-06-20 01:03:57,608 - DEBUG - firebase_comm - FIREBASE RESPONSE: datafeeds - received data for 49 symbols
+2025-06-20 01:18:34,869 - DEBUG - firebase_comm - FIREBASE GET: datafeeds (all symbols)
+2025-06-20 01:18:35,146 - DEBUG - firebase_comm - FIREBASE RESPONSE: datafeeds - received data for 49 symbols
+2025-06-20 01:19:12,637 - DEBUG - firebase_comm - FIREBASE GET: datafeeds (all symbols)
+2025-06-20 01:19:12,949 - DEBUG - firebase_comm - FIREBASE RESPONSE: datafeeds - received data for 49 symbols
+2025-06-20 01:20:18,200 - DEBUG - firebase_comm - FIREBASE GET: datafeeds (all symbols)
+2025-06-20 01:20:18,498 - DEBUG - firebase_comm - FIREBASE RESPONSE: datafeeds - received data for 49 symbols
+2025-06-20 01:27:23,938 - DEBUG - firebase_comm - FIREBASE GET: datafeeds (all symbols)
+2025-06-20 01:27:24,231 - DEBUG - firebase_comm - FIREBASE RESPONSE: datafeeds - received data for 49 symbols
+2025-06-20 01:27:32,728 - DEBUG - firebase_comm - FIREBASE GET: datafeeds (all symbols)
+2025-06-20 01:27:33,036 - DEBUG - firebase_comm - FIREBASE RESPONSE: datafeeds - received data for 49 symbols
+2025-06-20 01:30:06,614 - DEBUG - firebase_comm - FIREBASE GET: datafeeds (all symbols)
+2025-06-20 01:30:07,288 - DEBUG - firebase_comm - FIREBASE RESPONSE: datafeeds - received data for 49 symbols
+2025-06-20 01:30:26,785 - DEBUG - firebase_comm - FIREBASE GET: datafeeds (all symbols)
+2025-06-20 01:30:27,082 - DEBUG - firebase_comm - FIREBASE RESPONSE: datafeeds - received data for 49 symbols
+2025-06-20 01:34:45,484 - DEBUG - firebase_comm - FIREBASE GET: datafeeds (all symbols)
+2025-06-20 01:34:45,773 - DEBUG - firebase_comm - FIREBASE RESPONSE: datafeeds - received data for 49 symbols
+2025-06-20 02:49:35,865 - DEBUG - firebase_comm - FIREBASE GET: datafeeds (all symbols)
+2025-06-20 02:49:36,446 - DEBUG - firebase_comm - FIREBASE RESPONSE: datafeeds - received data for 49 symbols
+2025-06-20 03:17:09,503 - DEBUG - firebase_comm - FIREBASE GET: datafeeds (all symbols)
+2025-06-20 03:17:09,797 - DEBUG - firebase_comm - FIREBASE RESPONSE: datafeeds - received data for 49 symbols
+2025-06-20 03:30:56,034 - DEBUG - firebase_comm - FIREBASE GET: datafeeds (all symbols)
+2025-06-20 03:30:56,468 - DEBUG - firebase_comm - FIREBASE RESPONSE: datafeeds - received data for 49 symbols
+2025-06-20 03:35:55,141 - DEBUG - firebase_comm - FIREBASE GET: datafeeds (all symbols)
+2025-06-20 03:35:55,475 - DEBUG - firebase_comm - FIREBASE RESPONSE: datafeeds - received data for 49 symbols
+2025-06-20 03:47:58,278 - DEBUG - firebase_comm - FIREBASE GET: datafeeds (all symbols)
+2025-06-20 03:47:58,610 - DEBUG - firebase_comm - FIREBASE RESPONSE: datafeeds - received data for 49 symbols
+2025-06-20 04:04:25,075 - DEBUG - firebase_comm - FIREBASE GET: datafeeds (all symbols)
+2025-06-20 04:04:25,936 - DEBUG - firebase_comm - FIREBASE RESPONSE: datafeeds - received data for 49 symbols
+2025-06-20 04:29:30,427 - DEBUG - firebase_comm - FIREBASE GET: datafeeds (all symbols)
+2025-06-20 04:29:30,787 - DEBUG - firebase_comm - FIREBASE RESPONSE: datafeeds - received data for 49 symbols

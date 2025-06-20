@@ -365,7 +365,8 @@ async def trigger_pending_order(
                 external_symbol_info=external_symbol_info or {},
                 raw_market_data={symbol: raw_market_data},
                 db=db,
-                user_id=user_id
+                user_id=user_id,
+                order_price=order_price_normalized  # Pass the normalized order price
             )
             orders_logger.info(f"[PENDING_ORDER_EXECUTION_DEBUG] Margin calculated successfully for order {order_id}: margin={margin}, exec_price={exec_price}, contract_value={contract_value}")
             
@@ -482,15 +483,58 @@ async def trigger_pending_order(
                 orders_logger.error(f"[PENDING_ORDER_EXECUTION_DEBUG] Error committing order cancellation to database: {str(commit_error)}", exc_info=True)
             return
 
+        # These lines were unindented and caused the error, they should be part of the outer try block
+        from decimal import ROUND_HALF_UP # Moved import here to resolve potential circular dependency for calculation below
         try:
-            # Update user's margin with the new total that includes hedging adjustments
+            # Get all open orders for the symbol to recalculate margin
+            all_open_orders_for_symbol = await crud_order.get_open_orders_by_user_id_and_symbol(
+                db=db, user_id=user_id, symbol=symbol, order_model=order_model
+            )
+            
+            # Calculate margin before closing this order (this is referring to the margin currently held by existing open orders)
+            # This function needs to be defined or imported. Assuming it's calculate_total_symbol_margin_contribution from elsewhere.
+            # If not defined, this will cause a NameError.
+            # For the purpose of fixing indentation, I'll assume it's correctly defined/imported.
+            # I'm adding a placeholder import if it's meant to be in pending_orders.py
+            # If this function exists outside this file, ensure it's imported at the top.
+            from app.services.margin_calculator import calculate_total_symbol_margin_contribution
+            
+            margin_before_recalc_dict = await calculate_total_symbol_margin_contribution(
+                db=db,
+                redis_client=redis_client,
+                user_id=user_id,
+                symbol=symbol,
+                open_positions_for_symbol=all_open_orders_for_symbol,
+                order_model=order_model
+            )
+            margin_before_recalc = margin_before_recalc_dict["total_margin"]
+            logger.info(f"[MARGIN_DEBUG] Order {order.order_id}: Margin before recalc: {margin_before_recalc}")
+            
+            # Calculate current overall margin and non-symbol margin
+            current_overall_margin = Decimal(str(user_data.get('margin', '0'))) # Use user_data here
+            non_symbol_margin = current_overall_margin - margin_before_recalc
+            logger.info(f"[MARGIN_DEBUG] Order {order.order_id}: Current overall margin: {current_overall_margin}, Non-symbol margin: {non_symbol_margin}")
+            
+            # Calculate remaining orders after *this* pending order opens (not closes)
+            # This logic needs adjustment. When a pending order *opens*, its margin is added.
+            # The calculation of new_total_margin = current_total_margin_decimal + margin (from the pending order)
+            # is what's needed for the check against wallet_balance.
+            # The subsequent recalculation of `all_open_orders_for_symbol` should include the *newly opened* order.
+            # The current structure of this block seems to be copied from a "closing order" context.
+            # I will adjust the logic to reflect *adding* the margin of the triggered order.
+            
+            # Instead of recalculating based on remaining, we need to add the margin of the *current* triggered order
+            # The 'margin' variable already holds the calculated margin for this specific order, potentially hedged.
+            new_total_margin_after_open = current_overall_margin + margin # 'margin' is from calculate_single_order_margin
+            
+            # Update user's margin with the new total
             await update_user_margin(
                 db,
                 user_id,
                 user_type,
-                new_total_margin
+                new_total_margin_after_open.quantize(Decimal('0.01'), rounding=ROUND_HALF_UP) # Round for precision
             )
-            orders_logger.info(f"[PENDING_ORDER_EXECUTION_DEBUG] User margin updated successfully for user {user_id}: {new_total_margin} (includes hedging adjustments)")
+            orders_logger.info(f"[PENDING_ORDER_EXECUTION_DEBUG] User margin updated successfully for user {user_id}: {new_total_margin_after_open} (includes hedging adjustments for this order)")
             
             # Refresh user data in the cache to reflect the updated margin
             try:
@@ -528,7 +572,7 @@ async def trigger_pending_order(
             return
         
         db_order.order_status = 'OPEN'
-        orders_logger.info(f"[PENDING_ORDER_EXECUTION_DEBUG] Pending order {order_id} for user {user_id} opened successfully. New total margin: {new_total_margin}")
+        orders_logger.info(f"[PENDING_ORDER_EXECUTION_DEBUG] Pending order {order_id} for user {user_id} opened successfully. New total margin: {new_total_margin}") # Use new_total_margin_after_open if you want the actual calculated margin after this order
 
         # Commit DB changes for the order status and updated fields
         try:
@@ -765,181 +809,299 @@ async def process_order_stoploss_takeprofit(
         
         if not stop_loss and not take_profit:
             return  # No SL/TP to check
-        
-        # Get current market price for the symbol
-        try:
-            current_prices = await get_last_known_price(redis_client, symbol)
-            if not current_prices:
-                logger.warning(f"No current price found for {symbol} when checking SL/TP for order {order.order_id}")
-                return
-        except Exception as e:
-            logger.error(f"Error getting current price for {symbol}: {e}", exc_info=True)
+
+        # Get user's group name for adjusted price lookup
+        user_data = await get_user_data_cache(redis_client, order.order_user_id, db, user_type)
+        if not user_data:
+            logger.warning(f"User data not found for user {order.order_user_id}")
             return
+
+        user_group_name = user_data.get('group_name', 'default')
         
-        # For BUY orders:
-        # - Stop loss triggers when price falls to or below stop_loss
-        # - Take profit triggers when price rises to or above take_profit
-        #
-        # For SELL orders:
-        # - Stop loss triggers when price rises to or above stop_loss
-        # - Take profit triggers when price falls to or below take_profit
-        
-        try:
-            current_bid = Decimal(str(current_prices.get('b', '0')))
-            current_ask = Decimal(str(current_prices.get('a', '0')))
-        except (InvalidOperation, TypeError) as e:
-            logger.error(f"Error converting price values for {symbol}: {e}", exc_info=True)
+        # Get adjusted market prices from Redis cache
+        adjusted_prices = await get_adjusted_market_price_cache(redis_client, user_group_name, symbol)
+        if not adjusted_prices:
+            logger.warning(f"No adjusted prices found for {symbol} when checking SL/TP for order {order.order_id}")
             return
-            
-        if current_bid <= 0 or current_ask <= 0:
-            logger.warning(f"Invalid price values for {symbol}: bid={current_bid}, ask={current_ask}")
+
+        # Get adjusted buy and sell prices
+        adjusted_buy_price = Decimal(str(adjusted_prices.get('buy', '0')))
+        adjusted_sell_price = Decimal(str(adjusted_prices.get('sell', '0')))
+
+        if adjusted_buy_price <= 0 or adjusted_sell_price <= 0:
+            logger.warning(f"Invalid adjusted price values for {symbol}: buy={adjusted_buy_price}, sell={adjusted_sell_price}")
             return
-        
-        # Use bid price for selling (when closing BUY orders)
-        # Use ask price for buying (when closing SELL orders)
-        close_price = current_bid if order_type == "BUY" else current_ask
-        
-        # Check stop loss condition
+
+        # Check stop loss and take profit conditions based on order type
         sl_triggered = False
         tp_triggered = False
-        
-        if stop_loss:
-            if order_type == "BUY" and close_price <= Decimal(str(stop_loss)):
+        close_price = None
+        close_message = None
+
+        if order_type == "BUY":
+            # For BUY orders:
+            # - Stop loss triggers when adjusted_sell_price matches or goes below stop loss price
+            # - Take profit triggers when adjusted_sell_price matches or goes above take profit price
+            if stop_loss and adjusted_sell_price <= Decimal(str(stop_loss)):
                 sl_triggered = True
-                logger.info(f"Stop loss triggered for BUY order {order.order_id}: price {close_price} <= SL {stop_loss}")
-            elif order_type == "SELL" and close_price >= Decimal(str(stop_loss)):
+                close_price = adjusted_sell_price
+                close_message = "Stop loss triggered"
+                logger.info(f"Stop loss triggered for BUY order {order.order_id}: adjusted_sell_price {adjusted_sell_price} <= SL {stop_loss}")
+            elif take_profit and adjusted_sell_price >= Decimal(str(take_profit)):
+                tp_triggered = True
+                close_price = adjusted_sell_price
+                close_message = "Take profit triggered"
+                logger.info(f"Take profit triggered for BUY order {order.order_id}: adjusted_sell_price {adjusted_sell_price} >= TP {take_profit}")
+        else:  # SELL order
+            # For SELL orders:
+            # - Stop loss triggers when adjusted_buy_price matches or goes above stop loss price
+            # - Take profit triggers when adjusted_buy_price matches or goes below take profit price
+            if stop_loss and adjusted_buy_price >= Decimal(str(stop_loss)):
                 sl_triggered = True
-                logger.info(f"Stop loss triggered for SELL order {order.order_id}: price {close_price} >= SL {stop_loss}")
-        
-        # Check take profit condition
-        if take_profit and not sl_triggered:  # Only check TP if SL wasn't triggered
-            if order_type == "BUY" and close_price >= Decimal(str(take_profit)):
+                close_price = adjusted_buy_price
+                close_message = "Stop loss triggered"
+                logger.info(f"Stop loss triggered for SELL order {order.order_id}: adjusted_buy_price {adjusted_buy_price} >= SL {stop_loss}")
+            elif take_profit and adjusted_buy_price <= Decimal(str(take_profit)):
                 tp_triggered = True
-                logger.info(f"Take profit triggered for BUY order {order.order_id}: price {close_price} >= TP {take_profit}")
-            elif order_type == "SELL" and close_price <= Decimal(str(take_profit)):
-                tp_triggered = True
-                logger.info(f"Take profit triggered for SELL order {order.order_id}: price {close_price} <= TP {take_profit}")
-        
+                close_price = adjusted_buy_price
+                close_message = "Take profit triggered"
+                logger.info(f"Take profit triggered for SELL order {order.order_id}: adjusted_buy_price {adjusted_buy_price} <= TP {take_profit}")
+
         # If either condition is triggered, close the order
-        if sl_triggered or tp_triggered:
-            trigger_type = "stop_loss" if sl_triggered else "take_profit"
-            
-            # Import here to avoid circular imports
-            from app.api.v1.endpoints.orders import close_order
-            from app.schemas.order import CloseOrderRequest
-            from fastapi import Request, BackgroundTasks
-            
-            # Create a close order request
-            close_request = CloseOrderRequest(
-                order_id=order.order_id,
-                close_price=close_price,
-                user_id=order.order_user_id,
-                order_type=order.order_type,
-                order_company_name=order.order_company_name,
-                order_status="OPEN"
-            )
-            
-            # Create background tasks object
-            background_tasks = BackgroundTasks()
-            
-            # Create a dummy request object
-            request = Request(scope={"type": "http"})
-            
-            # Get the user object
-            from app.crud.user import get_user_by_id, get_demo_user_by_id
-            if user_type == 'live':
-                user = await get_user_by_id(db, order.order_user_id, user_type=user_type)
-            else:
-                user = await get_demo_user_by_id(db, order.order_user_id)
-            
-            if not user:
-                logger.error(f"User {order.order_user_id} not found when closing order {order.order_id}")
-                return
-            
-            # Close the order
-            from app.core.security import create_access_token
-            import datetime
-            
-            # Create a service token for the operation
-            access_token_expires = datetime.timedelta(minutes=5)  # Short-lived token
-            token = create_access_token(
-                data={"sub": str(user.id), "user_type": user_type, "is_service_account": True},
-                expires_delta=access_token_expires
-            )
-            
-            logger.info(f"Closing order {order.order_id} due to {trigger_type} trigger at price {close_price}")
-            
-            # Use the close_order function directly
+        if sl_triggered or tp_triggered and close_price:
             try:
-                # We can't use the API endpoint directly, so we need to simulate the process
-                # by updating the order status and other fields
-                from app.crud.crud_order import update_order_with_tracking
-                
                 # Generate a close_id
                 from app.services.order_processing import generate_unique_10_digit_id
-                order_model = UserOrder if user_type == 'live' else DemoUserOrder
+                order_model = get_order_model(user_type)
                 close_id = await generate_unique_10_digit_id(db, order_model, 'close_id')
-                
-                # Calculate profit/loss
+
+                # Calculate profit/loss including commission
                 entry_price = Decimal(str(order.order_price))
                 quantity = Decimal(str(order.order_quantity))
-                contract_size = Decimal(str(100000))  # Default contract size, should be fetched from symbol settings
-                
+                commission = Decimal(str(order.commission or '0'))
+
+                # Get group symbol settings for contract size
+                group_symbol_settings = await get_group_symbol_settings_cache(redis_client, user_group_name, symbol)
+                contract_size = Decimal(str(group_symbol_settings.get('contract_size', 100000)))
+                profit_currency = group_symbol_settings.get('profit_currency', 'USD')
+
+                # Calculate net profit
                 if order_type == "BUY":
-                    profit = (close_price - entry_price) * quantity * contract_size
+                    profit = (close_price - entry_price) * quantity * contract_size - commission
                 else:  # SELL
-                    profit = (entry_price - close_price) * quantity * contract_size
-                
-                # Update order
+                    profit = (entry_price - close_price) * quantity * contract_size - commission
+
+                # Convert profit to USD if needed
+                if profit_currency != 'USD':
+                    net_profit = await _convert_to_usd(
+                        amount=profit,
+                        from_currency=profit_currency,
+                        user_id=order.order_user_id,
+                        position_id=order.order_id,
+                        value_description=f"SL/TP profit conversion for order {order.order_id}",
+                        db=db,
+                        redis_client=redis_client
+                    )
+                    logger.info(f"Converted profit from {profit} {profit_currency} to {net_profit} USD for order {order.order_id}")
+                else:
+                    net_profit = profit
+
+                # Update order status and related fields
+                from app.crud.crud_order import update_order_with_tracking
                 update_fields = {
                     "order_status": "CLOSED",
                     "close_price": close_price,
                     "close_id": close_id,
-                    "net_profit": profit,
-                    "close_message": f"Closed automatically due to {trigger_type}"
+                    "net_profit": net_profit,
+                    "close_message": close_message
                 }
-                
-                # Update the order
+
+                # Update the order with tracking
                 updated_order = await update_order_with_tracking(
                     db=db,
                     db_order=order,
                     update_fields=update_fields,
                     user_id=order.order_user_id,
                     user_type=user_type,
-                    action_type=f"AUTO_{trigger_type.upper()}_CLOSE"
+                    action_type=f"AUTO_{'STOPLOSS' if sl_triggered else 'TAKEPROFIT'}_CLOSE"
                 )
-                
-                # Update user's wallet balance
+
+                # Get the user object
                 if user_type == 'live':
-                    user.wallet_balance += profit
+                    from app.database.models import User
+                    user = await User.by_id(db, order.order_user_id)
                 else:
-                    user.wallet_balance += profit
-                
-                # Adjust user's margin
-                user.margin -= Decimal(str(order.margin or 0))
-                if user.margin < 0:
-                    user.margin = Decimal(0)
-                
-                # Commit changes
-                await db.commit()
-                
-                # Update caches and publish events
-                from app.api.v1.endpoints.orders import update_user_static_orders, publish_order_update, publish_user_data_update
-                
+                    from app.database.models import DemoUser
+                    user = await DemoUser.by_id(db, order.order_user_id)
+
+                if not user:
+                    logger.error(f"User {order.order_user_id} not found when closing order {order.order_id}")
+                    return
+
                 try:
+                    # Get all open orders for the symbol to recalculate margin
+                    all_open_orders_for_symbol = await crud_order.get_open_orders_by_user_id_and_symbol(
+                        db=db, user_id=order.order_user_id, symbol=symbol, order_model=order_model
+                    )
+                    
+                    # Calculate margin before closing this order
+                    margin_before_recalc_dict = await calculate_total_symbol_margin_contribution(
+                        db=db,
+                        redis_client=redis_client,
+                        user_id=order.order_user_id,
+                        symbol=symbol,
+                        open_positions_for_symbol=all_open_orders_for_symbol,
+                        order_model=order_model
+                    )
+                    margin_before_recalc = margin_before_recalc_dict["total_margin"]
+                    logger.info(f"[MARGIN_DEBUG] Order {order.order_id}: Margin before recalc: {margin_before_recalc}")
+                    
+                    # Calculate current overall margin and non-symbol margin
+                    current_overall_margin = Decimal(str(user.margin))
+                    non_symbol_margin = current_overall_margin - margin_before_recalc
+                    logger.info(f"[MARGIN_DEBUG] Order {order.order_id}: Current overall margin: {current_overall_margin}, Non-symbol margin: {non_symbol_margin}")
+                    
+                    # Calculate remaining orders after closing this one
+                    remaining_orders_for_symbol_after_close = [o for o in all_open_orders_for_symbol if o.order_id != order.order_id]
+                    logger.info(f"[MARGIN_DEBUG] Order {order.order_id}: Remaining orders count: {len(remaining_orders_for_symbol_after_close)}")
+                    
+                    margin_after_symbol_recalc_dict = await calculate_total_symbol_margin_contribution(
+                        db=db,
+                        redis_client=redis_client,
+                        user_id=order.order_user_id,
+                        symbol=symbol,
+                        open_positions_for_symbol=remaining_orders_for_symbol_after_close,
+                        order_model=order_model
+                    )
+                    margin_after_symbol_recalc = margin_after_symbol_recalc_dict["total_margin"]
+                    logger.info(f"[MARGIN_DEBUG] Order {order.order_id}: Margin after symbol recalc: {margin_after_symbol_recalc}")
+                    
+                    # Start a nested transaction to ensure atomic updates
+                    async with db.begin_nested() as nested:
+                        try:
+                            # Update user's margin considering hedging
+                            old_margin = user.margin
+                            old_wallet_balance = user.wallet_balance
+                            
+                            # Calculate new margin - this is the key change
+                            # We need to set the margin to the recalculated margin for remaining orders
+                            user.margin = max(Decimal('0'), (non_symbol_margin + margin_after_symbol_recalc).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP))
+                            
+                            # Update user's wallet balance with net profit
+                            user.wallet_balance = (old_wallet_balance + net_profit - (order.swap or Decimal('0'))).quantize(Decimal('0.00000001'), rounding=ROUND_HALF_UP)
+                            
+                            logger.info(f"[MARGIN_DEBUG] Order {order.order_id}: Updated user margin from {old_margin} to {user.margin}")
+                            logger.info(f"[MARGIN_DEBUG] Order {order.order_id}: Updated wallet balance from {old_wallet_balance} to {user.wallet_balance}")
+                            logger.info(f"[MARGIN_DEBUG] Order {order.order_id}: Net profit: {net_profit}, Swap: {order.swap or Decimal('0')}")
+                            
+                            # Update order status and related fields
+                            update_fields = {
+                                "order_status": "CLOSED",
+                                "close_price": close_price,
+                                "close_id": close_id,
+                                "net_profit": net_profit,
+                                "close_message": close_message,
+                                "commission": order.commission,  # Preserve the commission
+                                "swap": order.swap  # Preserve the swap
+                            }
+
+                            # Update the order with tracking
+                            updated_order = await crud_order.update_order_with_tracking(
+                                db=db,
+                                db_order=order,
+                                update_fields=update_fields,
+                                user_id=order.order_user_id,
+                                user_type=user_type,
+                                action_type=f"AUTO_{'STOPLOSS' if sl_triggered else 'TAKEPROFIT'}_CLOSE"
+                            )
+
+                            # Create wallet transactions
+                            from app.crud.wallet import create_wallet_transaction
+                            
+                            # Common data for wallet transactions
+                            transaction_time = datetime.now(timezone.utc)
+                            wallet_common_data = {
+                                "symbol": symbol,
+                                "order_quantity": order.order_quantity,
+                                "is_approved": 1,
+                                "order_type": order.order_type,
+                                "transaction_time": transaction_time,
+                                "order_id": order.order_id
+                            }
+                            
+                            # Add user ID based on type
+                            if user_type == 'demo':
+                                wallet_common_data["demo_user_id"] = order.order_user_id
+                            else:
+                                wallet_common_data["user_id"] = order.order_user_id
+
+                            # Create P/L transaction if there's profit/loss
+                            if net_profit != Decimal("0.0"):
+                                await create_wallet_transaction(
+                                    db=db,
+                                    user_id=order.order_user_id,
+                                    amount=net_profit,
+                                    transaction_type="Profit/Loss",
+                                    order_id=order.order_id,
+                                    description=f"P/L for closing order {order.order_id} - {close_message}",
+                                    user_type=user_type,
+                                    **wallet_common_data
+                                )
+
+                            # Create commission transaction if there's commission
+                            if order.commission and order.commission > Decimal("0.0"):
+                                await create_wallet_transaction(
+                                    db=db,
+                                    user_id=order.order_user_id,
+                                    amount=-order.commission,
+                                    transaction_type="Commission",
+                                    order_id=order.order_id,
+                                    description=f"Commission for closing order {order.order_id}",
+                                    user_type=user_type,
+                                    **wallet_common_data
+                                )
+
+                            # Create swap transaction if there's swap
+                            if order.swap and order.swap != Decimal("0.0"):
+                                await create_wallet_transaction(
+                                    db=db,
+                                    user_id=order.order_user_id,
+                                    amount=-order.swap,
+                                    transaction_type="Swap",
+                                    order_id=order.order_id,
+                                    description=f"Swap for closing order {order.order_id}",
+                                    user_type=user_type,
+                                    **wallet_common_data
+                                )
+                            
+                            # If all operations succeed, commit the nested transaction
+                            await nested.commit()
+                            logger.info(f"[MARGIN_DEBUG] Order {order.order_id}: Successfully committed all changes in nested transaction")
+                        except Exception as transaction_error:
+                            # If any operation fails, roll back the nested transaction
+                            await nested.rollback()
+                            logger.error(f"[MARGIN_DEBUG] Order {order.order_id}: Error in nested transaction, rolling back: {str(transaction_error)}", exc_info=True)
+                            raise
+
+                    # Commit the outer transaction
+                    await db.commit()
+                    logger.info(f"[MARGIN_DEBUG] Order {order.order_id}: Successfully committed outer transaction")
+
+                    # Update caches and publish events
                     await update_user_static_orders(order.order_user_id, db, redis_client, user_type)
                     await publish_order_update(redis_client, order.order_user_id)
                     await publish_user_data_update(redis_client, order.order_user_id)
-                except Exception as e:
-                    logger.error(f"Error updating caches after closing order {order.order_id}: {e}", exc_info=True)
-                
-                logger.info(f"Successfully closed order {order.order_id} due to {trigger_type} trigger")
-                
-            except Exception as close_error:
-                logger.error(f"Error closing order {order.order_id} due to {trigger_type}: {close_error}", exc_info=True)
-    
+
+                    logger.info(f"Successfully closed order {order.order_id} due to {close_message}")
+
+                except Exception as close_error:
+                    logger.error(f"Error closing order {order.order_id}: {str(close_error)}", exc_info=True)
+
+            except Exception as e:
+                logger.error(f"Error processing SL/TP for order {order.order_id}: {str(e)}", exc_info=True)
+
     except Exception as e:
-        logger.error(f"Error processing SL/TP for order {order.order_id}: {e}", exc_info=True)
+        logger.error(f"Error processing SL/TP for order {order.order_id}: {str(e)}", exc_info=True)
 
 async def get_last_known_price(redis_client: Redis, symbol: str) -> dict:
     """

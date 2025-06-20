@@ -48,6 +48,7 @@ from app.core.cache import (
     publish_user_data_update,
     publish_market_data_trigger,
     set_group_settings_cache,
+    get_adjusted_market_price_cache,
 )
 
 from app.utils.validation import enforce_service_user_id_restriction
@@ -313,11 +314,45 @@ async def place_order(
     Place a new order.
     """
     from app.core.logging_config import frontend_orders_logger, error_logger
+    from app.core.cache import get_adjusted_market_price_cache
     
     try:
         # Log the incoming request
         frontend_orders_logger.info(f"FRONTEND ORDER PLACEMENT - REQUEST: {json.dumps(order_request.dict(), default=str)}")
-        orders_logger.info(f"Order placement request received - User ID: {current_user.id}, Symbol: {order_request.symbol}, Type: {order_request.order_type}, Quantity: {order_request.order_quantity}")
+        
+        # Get user's group name for adjusted price lookup
+        user_group_name = getattr(current_user, 'group_name', 'default')
+        
+        # Get adjusted market prices from Redis cache
+        adjusted_prices = await get_adjusted_market_price_cache(redis_client, user_group_name, order_request.symbol)
+        if not adjusted_prices:
+            raise HTTPException(status_code=500, detail="Could not fetch current market prices.")
+        
+        # Set order price based on order type
+        if order_request.order_type == "BUY":
+            order_price = adjusted_prices.get('buy')  # Use buy price for BUY orders
+            orders_logger.info(f"Using adjusted buy price {order_price} for BUY order")
+        elif order_request.order_type == "SELL":
+            order_price = adjusted_prices.get('sell')  # Use sell price for SELL orders
+            orders_logger.info(f"Using adjusted sell price {order_price} for SELL order")
+        else:
+            raise HTTPException(status_code=400, detail=f"Invalid order type: {order_request.order_type}")
+
+        if not order_price:
+            raise HTTPException(status_code=500, detail="Could not determine order price from market data.")
+
+        try:
+            order_price = Decimal(str(order_price))
+            if order_price <= Decimal("0"):
+                raise HTTPException(status_code=400, detail="Order price must be positive.")
+        except InvalidOperation:
+            raise HTTPException(status_code=400, detail="Invalid order price format.")
+            
+        # Update the order request with the fetched price
+        order_request.order_price = order_price
+        
+        # Continue with the existing order placement logic
+        orders_logger.info(f"Order placement request received - Symbol: {order_request.symbol}, Type: {order_request.order_type}, Price: {order_price}")
         
         # Convert order request to dict
         order_data = {
@@ -953,11 +988,12 @@ async def close_order(
     Close an existing order.
     """
     from app.core.logging_config import frontend_orders_logger, error_logger
+    from app.core.cache import get_adjusted_market_price_cache
     
     try:
         # Log the incoming request
         frontend_orders_logger.info(f"FRONTEND ORDER CLOSE - REQUEST: {json.dumps(close_request.dict(), default=str)}")
-        orders_logger.info(f"Order close request received - Order ID: {close_request.order_id}, User ID: {close_request.user_id}, Close Price: {close_request.close_price}")
+        orders_logger.info(f"Order close request received - Order ID: {close_request.order_id}, User ID: {close_request.user_id}")
         
         # Validate the request
         if not close_request.order_id:
@@ -994,8 +1030,34 @@ async def close_order(
         orders_logger.info(f"Using order model: {getattr(order_model_class, '__tablename__', str(order_model_class))} for user {user_to_operate_on.id} ({type(user_to_operate_on).__name__})")
         order_id = close_request.order_id
 
+        # Get the order first to determine the order type and symbol
+        db_order = await crud_order.get_order_by_id(db, order_id=order_id, order_model=order_model_class)
+        if not db_order:
+            raise HTTPException(status_code=404, detail="Order not found.")
+
+        # Get user's group name for adjusted price lookup
+        user_group_name = getattr(user_to_operate_on, 'group_name', 'default')
+        
+        # Get adjusted market prices from Redis cache
+        adjusted_prices = await get_adjusted_market_price_cache(redis_client, user_group_name, db_order.order_company_name)
+        if not adjusted_prices:
+            raise HTTPException(status_code=500, detail="Could not fetch current market prices.")
+
+        # Set close price based on order type
+        if db_order.order_type == "BUY":
+            close_price = adjusted_prices.get('sell')  # Use sell price to close a buy position
+            orders_logger.info(f"Using adjusted sell price {close_price} to close BUY order {order_id}")
+        elif db_order.order_type == "SELL":
+            close_price = adjusted_prices.get('buy')   # Use buy price to close a sell position
+            orders_logger.info(f"Using adjusted buy price {close_price} to close SELL order {order_id}")
+        else:
+            raise HTTPException(status_code=400, detail=f"Invalid order type: {db_order.order_type}")
+
+        if not close_price:
+            raise HTTPException(status_code=500, detail="Could not determine closing price from market data.")
+
         try:
-            close_price = Decimal(str(close_request.close_price))
+            close_price = Decimal(str(close_price))
             if close_price <= Decimal("0"):
                 raise HTTPException(status_code=400, detail="Close price must be positive.")
         except InvalidOperation:

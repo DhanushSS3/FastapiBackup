@@ -1,451 +1,188 @@
-2025-06-19 23:33:52,356 - INFO - orders - Application starting up - Orders logging initialized
-2025-06-19 23:33:58,904 - app.api.v1.endpoints.orders - INFO - [get_rejected_orders] user_type: demo
-2025-06-19 23:34:02,545 - INFO - orders - [PENDING_ORDER_EXECUTION] Raw values - order_price: 0.88850000, adjusted_buy_price: 0.88807
-2025-06-19 23:34:02,545 - INFO - orders - [PENDING_ORDER_EXECUTION] BUY_LIMIT/SELL_STOP check: 0.88807 <= 0.88850 = True
-2025-06-19 23:34:02,545 - INFO - orders - [PENDING_ORDER_EXECUTION] Price comparison values - adjusted_buy_price_normalized: 0.88807 (<class 'decimal.Decimal'>), order_price_normalized: 0.88850 (<class 'decimal.Decimal'>)
-2025-06-19 23:34:02,545 - INFO - orders - [PENDING_ORDER_EXECUTION] String comparison for prices: '0.88807' vs '0.88850'
-2025-06-19 23:34:02,545 - INFO - orders - [PENDING_ORDER_EXECUTION] Absolute price difference: 0.00043
-2025-06-19 23:34:02,545 - INFO - orders - [PENDING_ORDER_EXECUTION] Prices within epsilon tolerance: False (epsilon=0.00001)
-2025-06-19 23:34:02,546 - INFO - orders - [PENDING_ORDER_EXECUTION] BUY_LIMIT/SELL_STOP with epsilon: True
-2025-06-19 23:34:02,546 - INFO - orders - [PENDING_ORDER_EXECUTION] Checking order 7573126284: type=BUY_LIMIT, adjusted_buy_price=0.88807, order_price=0.88850, should_trigger=True
-2025-06-19 23:34:02,546 - INFO - orders - [PENDING_ORDER_EXECUTION] Trigger condition met for order 7573126284. Executing trigger_pending_order.
-2025-06-19 23:34:02,546 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Starting trigger_pending_order for order 7573126284, user 1, symbol AUDCAD, type BUY_LIMIT
-2025-06-19 23:34:02,554 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] User data loaded for user 1: group=Group B, wallet_balance=18780.21000000
-2025-06-19 23:34:02,575 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Group settings loaded for group Group B
-2025-06-19 23:34:02,586 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Database order 7573126284 found on attempt 1
-2025-06-19 23:34:02,588 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Database order loaded: status=PENDING, price=0.88850000
-2025-06-19 23:34:02,595 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Adjusted prices loaded: {'buy': Decimal('0.8880700000'), 'sell': Decimal('0.8880100000'), 'spread_value': Decimal('0E-8')}
-2025-06-19 23:34:02,595 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Normalized prices for comparison - order_price: 0.88850, adjusted_buy_price: 0.88807, adjusted_sell_price: 0.88801
-2025-06-19 23:34:02,596 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] BUY_LIMIT/SELL_STOP check: 0.88807 <= 0.88850 = True
-2025-06-19 23:34:02,596 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Checking order 7573126284: type=BUY_LIMIT, adjusted_buy_price=0.88807, order_price=0.88850, should_trigger=True
-2025-06-19 23:34:02,596 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Price comparison values - adjusted_buy_price_normalized: 0.88807 (<class 'decimal.Decimal'>), order_price_normalized: 0.88850 (<class 'decimal.Decimal'>)
-2025-06-19 23:34:02,596 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Raw price values - adjusted_buy_price: 0.8880700000 (<class 'decimal.Decimal'>), order_price: 0.88850000 (<class 'decimal.Decimal'>)
-2025-06-19 23:34:02,596 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] String comparison for prices: '0.88807' vs '0.88850'
-2025-06-19 23:34:02,596 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Absolute price difference: 0.00043
-2025-06-19 23:34:02,596 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Prices within epsilon tolerance: False (epsilon=0.00001)
-2025-06-19 23:34:02,597 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] BUY_LIMIT/SELL_STOP with epsilon: True
-2025-06-19 23:34:02,609 - INFO - orders - [SYMBOL_INFO] Retrieved external symbol info for AUDCAD: contract_size=100000.00000000, profit_currency=CAD, digit=5.00000
-2025-06-19 23:34:02,609 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] External symbol info loaded: {'contract_size': Decimal('100000.00000000'), 'profit_currency': 'CAD', 'digit': Decimal('5.00000')}
-2025-06-19 23:34:02,610 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Raw market data loaded: {'b': '0.8880700000', 'o': '0.8880100000'}
-2025-06-19 23:34:02,610 - INFO - orders - [MARGIN_CALC] Starting margin calculation for AUDCAD BUY_LIMIT order, quantity: 0.01000000
-2025-06-19 23:34:02,610 - INFO - orders - [MARGIN_CALC] No group_name in settings, fetching for user 1
-2025-06-19 23:34:02,662 - INFO - orders - [MARGIN_CALC] Contract size for AUDCAD: 100000.00000000 (raw: 100000.00000000, type: <class 'decimal.Decimal'>)
-2025-06-19 23:34:02,667 - INFO - orders - [MARGIN_CALC] Got BUY price for AUDCAD from cache: 0.8880100000
-2025-06-19 23:34:02,667 - INFO - orders - [MARGIN_CALC] Contract value calculation for AUDCAD:
-2025-06-19 23:34:02,667 - INFO - orders - [MARGIN_CALC] Contract value = contract_size * quantity = 100000.00000000 * 0.01000000 = 1000.0000000000000000
-2025-06-19 23:34:02,675 - INFO - orders - [MARGIN_CALC] Using default leverage: 100
-2025-06-19 23:34:02,675 - INFO - orders - [MARGIN_CALC] Margin calculation: (contract_value * price) / effective_leverage = (1000.0000000000000000 * 0.8880100000) / 100 = 8.8801000000000000000000000 (rounded to 8.88)
-2025-06-19 23:34:02,675 - INFO - orders - [MARGIN_CALC] Commission settings for AUDCAD: type=0, value_type=0, rate=10.0000
-2025-06-19 23:34:02,675 - INFO - orders - [MARGIN_CALC] Per lot commission: 0.01000000 * 10.0000 = 0.100000000000
-2025-06-19 23:34:02,675 - INFO - orders - [MARGIN_CALC] Profit currency for AUDCAD: CAD
-2025-06-19 23:34:02,676 - INFO - orders - [MARGIN_CALC] Converting margin from CAD to USD: 8.88 CAD
-2025-06-19 23:34:02,676 - INFO - orders - [CURRENCY_CONVERT] Starting conversion of 8.88 CAD to USD for margin for AUDCAD BUY_LIMIT order (user_id: 1, position: )
-2025-06-19 23:34:02,676 - INFO - orders - [CURRENCY_CONVERT] Trying direct conversion with symbol: CADUSD
-2025-06-19 23:34:02,677 - INFO - orders - [CURRENCY_CONVERT] Direct conversion prices from cache: None
-2025-06-19 23:34:02,678 - INFO - orders - [CURRENCY_CONVERT] No direct conversion rate found for CADUSD, trying inverse
-2025-06-19 23:34:02,678 - INFO - orders - [CURRENCY_CONVERT] Trying inverse conversion with symbol: USDCAD
-2025-06-19 23:34:02,679 - INFO - orders - [CURRENCY_CONVERT] Inverse conversion prices from cache: {'b': Decimal('1.3701600000'), 'o': Decimal('1.3701200000')}
-2025-06-19 23:34:02,680 - INFO - orders - [CURRENCY_CONVERT] Found inverse conversion rate (bid): 1.3701600000
-2025-06-19 23:34:02,680 - INFO - orders - [CURRENCY_CONVERT] Inverse conversion successful: 8.88 CAD / 1.3701600000 = 6.480994920301278682781572955 USD
-2025-06-19 23:34:02,680 - INFO - orders - [MARGIN_CALC] Margin after USD conversion: 8.88 CAD -> 6.480994920301278682781572955 USD
-2025-06-19 23:34:02,680 - INFO - orders - [MARGIN_CALC] Final results for AUDCAD BUY_LIMIT: margin=6.480994920301278682781572955, price=0.8880100000, contract_value=1000.0000000000000000, commission=0.10
-2025-06-19 23:34:02,680 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Margin calculated successfully for order 7573126284: margin=6.480994920301278682781572955, exec_price=0.8880100000, contract_value=1000.0000000000000000
-2025-06-19 23:34:02,687 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Latest free_margin for user 1: 18780.21000000
-2025-06-19 23:34:02,687 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Executing order 7573126284 for user 1 at price 0.88807 (order_price=0.88850, type=BUY_LIMIT)
-2025-06-19 23:34:02,687 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Contract value calculated: 1000.0000000000000000
-2025-06-19 23:34:02,687 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Updated order object with calculated values: margin=6.480994920301278682781572955 (was None), contract_value=1000.0000000000000000, commission=0.10, execution_price=0.8880100000
-2025-06-19 23:34:02,688 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Updated order object with new values
-2025-06-19 23:34:02,688 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Margin check: current_margin=0E-8, new_margin=6.480994920301278682781572955, wallet_balance=18780.21000000
-2025-06-19 23:34:02,688 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Using margin with hedging applied: 6.480994920301278682781572955. Adding to current total margin: 0E-8
-2025-06-19 23:34:02,773 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] User margin updated successfully for user 1: 6.480994920301278682781572955 (includes hedging adjustments)
-2025-06-19 23:34:02,773 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Pending order 7573126284 for user 1 opened successfully. New total margin: 6.480994920301278682781572955
-2025-06-19 23:34:02,819 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Order 7573126284 status updated to OPEN in database
-2025-06-19 23:34:02,819 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Starting portfolio update for user 1
-2025-06-19 23:34:02,843 - ERROR - orders - [PENDING_ORDER_EXECUTION_DEBUG] Error updating portfolio cache or publishing websocket event: cannot access local variable 'get_last_known_price' where it is not associated with a value
+2025-06-20 03:52:23,957 - INFO - orders - Application starting up - Orders logging initialized
+2025-06-20 03:52:28,846 - app.api.v1.endpoints.orders - INFO - [get_rejected_orders] user_type: demo
+2025-06-20 03:54:58,937 - INFO - orders - Application starting up - Orders logging initialized
+2025-06-20 03:56:26,408 - INFO - orders - Application starting up - Orders logging initialized
+2025-06-20 03:57:02,349 - INFO - orders - Cancel stoploss request received - Order ID: 3339718299, User ID: 1
+2025-06-20 03:57:02,372 - INFO - orders - User 1 is_barclays_live_user: False
+2025-06-20 03:57:02,459 - INFO - orders - Starting update_user_static_orders for user 1, user_type demo
+2025-06-20 03:57:02,459 - INFO - orders - Using order model: DemoUserOrder
+2025-06-20 03:57:02,478 - INFO - orders - Fetched 1 open orders for user 1
+2025-06-20 03:57:02,496 - INFO - orders - Fetched 0 pending orders for user 1
+2025-06-20 03:57:02,504 - INFO - orders - Updated static orders cache for user 1 with 1 open orders and 0 pending orders
+2025-06-20 03:57:05,043 - INFO - orders - Cancel stoploss request received - Order ID: 3339718299, User ID: 1
+2025-06-20 03:57:05,048 - ERROR - orders - Error cancelling stoploss: 400: No stop loss exists for this order
 Traceback (most recent call last):
-  File "C:\Users\Dhanush\FASTAPI\app\services\pending_orders.py", line 539, in trigger_pending_order
-    prices = await get_last_known_price(redis_client, symbol_key)
-                   ^^^^^^^^^^^^^^^^^^^^
-UnboundLocalError: cannot access local variable 'get_last_known_price' where it is not associated with a value
-2025-06-19 23:34:02,853 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Successfully processed triggered pending order 7573126284 for user 1. Status set to OPEN. Order Type changed from BUY_LIMIT to BUY.
-2025-06-19 23:34:02,863 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Successfully removed order 7573126284 from Redis pending orders
-2025-06-19 23:34:02,865 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Published order execution notification for order 7573126284 to channel user:1:notifications
-2025-06-19 23:34:09,370 - INFO - orders - Order close request received - Order ID: 7573126284, User ID: 1, Close Price: 0.88804
-2025-06-19 23:34:09,370 - INFO - orders - user_to_operate_on: <app.database.models.DemoUser object at 0x0000023B39CC4050>, type: <class 'app.database.models.DemoUser'>, attrs: ['__abstract__', '__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__firstlineno__', '__format__', '__ge__', '__getattribute__', '__getstate__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__mapper__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__static_attributes__', '__str__', '__subclasshook__', '__table__', '__table_args__', '__tablename__', '__weakref__', '_sa_class_manager', '_sa_instance_state', '_sa_registry', 'account_number', 'city', 'country', 'created_at', 'demo_user_favorites', 'email', 'group_name', 'hashed_password', 'id', 'isActive', 'is_service_account', 'leverage', 'margin', 'metadata', 'name', 'net_profit', 'orders', 'otps', 'phone_number', 'pincode', 'referred_by_id', 'reffered_code', 'registry', 'security_answer', 'security_question', 'state', 'status', 'updated_at', 'user_type', 'wallet_balance', 'wallet_transactions']
-2025-06-19 23:34:09,371 - INFO - orders - Using order model: demo_user_orders for user 1 (DemoUser)
-2025-06-19 23:34:09,371 - INFO - orders - Request to close order 7573126284 for user 1 (DemoUser) with price 0.88804. Frontend provided type: BUY, company: AUDCAD, status: CLOSED, frontend_status: CLOSED.
-2025-06-19 23:34:09,410 - INFO - orders - Demo user 1 from group 'default' ('sending_orders' is NOT 'barclays'). Processing close locally.
-2025-06-19 23:34:09,444 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB_ENTRY] User 1, Symbol AUDCAD, Positions count: 1
-2025-06-19 23:34:09,445 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB_POS_DETAIL] User 1, Symbol AUDCAD, Pos 1 (ID: 218): Type=BUY, Qty=0.01000000, StoredMargin=6.48099492
-2025-06-19 23:34:09,445 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB_POS_DETAIL] User 1, Symbol AUDCAD, Pos 1: MarginPerLot=648.099492
-2025-06-19 23:34:09,445 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB_CALC] User 1, Symbol AUDCAD: TotalBuyQty=0.01000000, TotalSellQty=0, NetQty=0.01000000
-2025-06-19 23:34:09,445 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB_CALC] User 1, Symbol AUDCAD: AllMarginsPerLot=[Decimal('648.099492')], HighestMarginPerLot=648.099492
-2025-06-19 23:34:09,445 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB_EXIT] User 1, Symbol AUDCAD: CalculatedTotalMargin=6.48, ContributingOrders=1 (based on individual stored margins)
-2025-06-19 23:34:09,448 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB_ENTRY] User 1, Symbol AUDCAD, Positions count: 0
-2025-06-19 23:34:09,448 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB] No open positions for User 1, Symbol AUDCAD. Returning zero margin.
-2025-06-19 23:34:09,509 - INFO - orders - Existing entry commission for order 7573126284: 0.10000000
-2025-06-19 23:34:09,510 - INFO - orders - Commission calculation for order 7573126284: entry=0.10000000, exit=0.100000000000, total=0.20
-2025-06-19 23:34:09,510 - INFO - orders - [CURRENCY_CONVERT] Starting conversion of 0.030000000000000000000000 CAD to USD for PnL on Close (user_id: 1, position: 7573126284)
-2025-06-19 23:34:09,510 - INFO - orders - [CURRENCY_CONVERT] Trying direct conversion with symbol: CADUSD
-2025-06-19 23:34:09,514 - INFO - orders - [CURRENCY_CONVERT] Direct conversion prices from cache: None
-2025-06-19 23:34:09,515 - INFO - orders - [CURRENCY_CONVERT] No direct conversion rate found for CADUSD, trying inverse
-2025-06-19 23:34:09,515 - INFO - orders - [CURRENCY_CONVERT] Trying inverse conversion with symbol: USDCAD
-2025-06-19 23:34:09,518 - INFO - orders - [CURRENCY_CONVERT] Inverse conversion prices from cache: {'b': Decimal('1.3703500000'), 'o': Decimal('1.3703300000')}
-2025-06-19 23:34:09,518 - INFO - orders - [CURRENCY_CONVERT] Found inverse conversion rate (bid): 1.3703500000
-2025-06-19 23:34:09,518 - INFO - orders - [CURRENCY_CONVERT] Inverse conversion successful: 0.030000000000000000000000 CAD / 1.3703500000 = 0.02189221731674389754442295764 USD
-2025-06-19 23:34:09,643 - INFO - orders - AFTER COMMIT: User 1 wallet_balance=18780.03000000, margin=0
-2025-06-19 23:34:09,643 - INFO - orders - Setting user data cache for user 1 with wallet_balance=18780.03000000, margin=0
-2025-06-19 23:34:09,651 - INFO - orders - User data cache updated for user 1
-2025-06-19 23:34:09,651 - INFO - orders - Starting update_user_static_orders for user 1, user_type demo
-2025-06-19 23:34:09,652 - INFO - orders - Using order model: DemoUserOrder
-2025-06-19 23:34:09,660 - INFO - orders - Fetched 0 open orders for user 1
-2025-06-19 23:34:09,666 - INFO - orders - Fetched 0 pending orders for user 1
-2025-06-19 23:34:09,672 - INFO - orders - Updated static orders cache for user 1 with 0 open orders and 0 pending orders
-2025-06-19 23:34:09,673 - INFO - orders - Publishing order update for user 1
-2025-06-19 23:34:09,677 - INFO - orders - Publishing user data update for user 1
-2025-06-19 23:34:09,682 - INFO - orders - Publishing market data trigger
-2025-06-19 23:34:50,533 - INFO - orders - Pending order placement request received - User ID: 1, Symbol: AUDJPY, Type: BUY_LIMIT, Quantity: 0.01
-2025-06-19 23:34:50,557 - INFO - orders - Validating pending order price: Order type=BUY_LIMIT, Order price=94.265, Current buy price=94.2670000000, Current sell price=94.1600000000
-2025-06-19 23:34:50,572 - INFO - orders - Calculated contract_value for pending order: 1000.0000000000 (contract_size: 100000.00000000 * quantity: 0.01)
-2025-06-19 23:34:50,574 - INFO - orders - [DEBUG] User data from cache: {'id': 1, 'email': 'dhanush777ss@gmail.com', 'group_name': 'Group B', 'leverage': Decimal('100.00'), 'user_type': 'demo', 'account_number': '5O42G', 'wallet_balance': Decimal('18780.03000000'), 'margin': Decimal('0'), 'first_name': None, 'last_name': None, 'country': None, 'phone_number': Decimal('8618025298')}
-2025-06-19 23:34:50,575 - INFO - orders - [DEBUG] Group name: Group B
-2025-06-19 23:34:50,577 - INFO - orders - [DEBUG] Group settings from cache: {'sending_orders': 'barclays'}
-2025-06-19 23:34:50,578 - INFO - orders - [DEBUG] sending_orders value: barclays, type: <class 'str'>
-2025-06-19 23:34:50,578 - INFO - orders - [DEBUG] sending_orders_normalized: barclays
-2025-06-19 23:34:50,578 - INFO - orders - User 1 is_barclays_live_user: False (user_type: demo, sending_orders_normalized: barclays)
-2025-06-19 23:34:50,613 - INFO - orders - [DEBUG][pending_order] Prepared order_data_for_internal_processing: {'order_id': '3172438575', 'order_company_name': 'AUDJPY', 'order_type': 'BUY_LIMIT', 'order_quantity': Decimal('0.01'), 'order_price': Decimal('94.265'), 'user_type': 'demo', 'status': 'PENDING', 'stop_loss': Decimal('0'), 'take_profit': Decimal('0'), 'stoploss_id': '7392034134', 'takeprofit_id': '3226065777', 'order_user_id': 1, 'order_status': 'PENDING', 'contract_value': Decimal('1000.0000000000'), 'margin': None, 'open_time': None}
-2025-06-19 23:34:50,613 - INFO - orders - Placing PENDING order: BUY_LIMIT for user 1 at price 94.265
-2025-06-19 23:34:50,756 - INFO - orders - Order 3172438575 verified in database on attempt 1 before adding to Redis.
-2025-06-19 23:34:50,776 - INFO - orders - Pending order 3172438575 added to Redis for non-Barclays user or demo user.
-2025-06-19 23:34:50,788 - INFO - orders - User data cache updated for user 1 after placing pending order
-2025-06-19 23:34:50,788 - INFO - orders - Starting update_user_static_orders for user 1, user_type demo
-2025-06-19 23:34:50,788 - INFO - orders - Using order model: DemoUserOrder
-2025-06-19 23:34:50,807 - INFO - orders - Fetched 0 open orders for user 1
-2025-06-19 23:34:50,822 - INFO - orders - Fetched 1 pending orders for user 1
-2025-06-19 23:34:50,827 - INFO - orders - Updated static orders cache for user 1 with 0 open orders and 1 pending orders
-2025-06-19 23:34:52,936 - INFO - orders - [PENDING_ORDER_EXECUTION] Raw values - order_price: 94.26500000, adjusted_buy_price: 94.264
-2025-06-19 23:34:52,936 - INFO - orders - [PENDING_ORDER_EXECUTION] BUY_LIMIT/SELL_STOP check: 94.26400 <= 94.26500 = True
-2025-06-19 23:34:52,936 - INFO - orders - [PENDING_ORDER_EXECUTION] Price comparison values - adjusted_buy_price_normalized: 94.26400 (<class 'decimal.Decimal'>), order_price_normalized: 94.26500 (<class 'decimal.Decimal'>)
-2025-06-19 23:34:52,936 - INFO - orders - [PENDING_ORDER_EXECUTION] String comparison for prices: '94.26400' vs '94.26500'
-2025-06-19 23:34:52,936 - INFO - orders - [PENDING_ORDER_EXECUTION] Absolute price difference: 0.00100
-2025-06-19 23:34:52,937 - INFO - orders - [PENDING_ORDER_EXECUTION] Prices within epsilon tolerance: False (epsilon=0.00001)
-2025-06-19 23:34:52,937 - INFO - orders - [PENDING_ORDER_EXECUTION] BUY_LIMIT/SELL_STOP with epsilon: True
-2025-06-19 23:34:52,937 - INFO - orders - [PENDING_ORDER_EXECUTION] Checking order 3172438575: type=BUY_LIMIT, adjusted_buy_price=94.26400, order_price=94.26500, should_trigger=True
-2025-06-19 23:34:52,937 - INFO - orders - [PENDING_ORDER_EXECUTION] Trigger condition met for order 3172438575. Executing trigger_pending_order.
-2025-06-19 23:34:52,937 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Starting trigger_pending_order for order 3172438575, user 1, symbol AUDJPY, type BUY_LIMIT
-2025-06-19 23:34:52,940 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] User data loaded for user 1: group=Group B, wallet_balance=18780.21000000
-2025-06-19 23:34:52,943 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Group settings loaded for group Group B
-2025-06-19 23:34:52,949 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Database order 3172438575 found on attempt 1
-2025-06-19 23:34:52,950 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Database order loaded: status=PENDING, price=94.26500000
-2025-06-19 23:34:52,956 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Adjusted prices loaded: {'buy': Decimal('94.2640000000'), 'sell': Decimal('94.1560000000'), 'spread_value': Decimal('0.10000000')}
-2025-06-19 23:34:52,956 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Normalized prices for comparison - order_price: 94.26500, adjusted_buy_price: 94.26400, adjusted_sell_price: 94.15600
-2025-06-19 23:34:52,956 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] BUY_LIMIT/SELL_STOP check: 94.26400 <= 94.26500 = True
-2025-06-19 23:34:52,957 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Checking order 3172438575: type=BUY_LIMIT, adjusted_buy_price=94.26400, order_price=94.26500, should_trigger=True
-2025-06-19 23:34:52,957 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Price comparison values - adjusted_buy_price_normalized: 94.26400 (<class 'decimal.Decimal'>), order_price_normalized: 94.26500 (<class 'decimal.Decimal'>)
-2025-06-19 23:34:52,957 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Raw price values - adjusted_buy_price: 94.2640000000 (<class 'decimal.Decimal'>), order_price: 94.26500000 (<class 'decimal.Decimal'>)
-2025-06-19 23:34:52,957 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] String comparison for prices: '94.26400' vs '94.26500'
-2025-06-19 23:34:52,958 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Absolute price difference: 0.00100
-2025-06-19 23:34:52,958 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Prices within epsilon tolerance: False (epsilon=0.00001)
-2025-06-19 23:34:52,958 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] BUY_LIMIT/SELL_STOP with epsilon: True
-2025-06-19 23:34:52,967 - INFO - orders - [SYMBOL_INFO] Retrieved external symbol info for AUDJPY: contract_size=100000.00000000, profit_currency=JPY, digit=3.00000
-2025-06-19 23:34:52,967 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] External symbol info loaded: {'contract_size': Decimal('100000.00000000'), 'profit_currency': 'JPY', 'digit': Decimal('3.00000')}
-2025-06-19 23:34:52,968 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Raw market data loaded: {'b': '94.2140000000', 'o': '94.2060000000'}
-2025-06-19 23:34:52,968 - INFO - orders - [MARGIN_CALC] Starting margin calculation for AUDJPY BUY_LIMIT order, quantity: 0.01000000
-2025-06-19 23:34:52,968 - INFO - orders - [MARGIN_CALC] No group_name in settings, fetching for user 1
-2025-06-19 23:34:52,978 - INFO - orders - [MARGIN_CALC] Contract size for AUDJPY: 100000.00000000 (raw: 100000.00000000, type: <class 'decimal.Decimal'>)
-2025-06-19 23:34:52,983 - INFO - orders - [MARGIN_CALC] Got BUY price for AUDJPY from cache: 94.2060000000
-2025-06-19 23:34:52,983 - INFO - orders - [MARGIN_CALC] Contract value calculation for AUDJPY:
-2025-06-19 23:34:52,983 - INFO - orders - [MARGIN_CALC] Contract value = contract_size * quantity = 100000.00000000 * 0.01000000 = 1000.0000000000000000
-2025-06-19 23:34:53,053 - INFO - orders - [MARGIN_CALC] Using default leverage: 100
-2025-06-19 23:34:53,053 - INFO - orders - [MARGIN_CALC] Margin calculation: (contract_value * price) / effective_leverage = (1000.0000000000000000 * 94.2060000000) / 100 = 942.06000000000000000000000 (rounded to 942.06)
-2025-06-19 23:34:53,053 - INFO - orders - [MARGIN_CALC] Commission settings for AUDJPY: type=0, value_type=0, rate=10.0000
-2025-06-19 23:34:53,053 - INFO - orders - [MARGIN_CALC] Per lot commission: 0.01000000 * 10.0000 = 0.100000000000
-2025-06-19 23:34:53,054 - INFO - orders - [MARGIN_CALC] Profit currency for AUDJPY: JPY
-2025-06-19 23:34:53,055 - INFO - orders - [MARGIN_CALC] Converting margin from JPY to USD: 942.06 JPY
-2025-06-19 23:34:53,055 - INFO - orders - [CURRENCY_CONVERT] Starting conversion of 942.06 JPY to USD for margin for AUDJPY BUY_LIMIT order (user_id: 1, position: )
-2025-06-19 23:34:53,055 - INFO - orders - [CURRENCY_CONVERT] Trying direct conversion with symbol: JPYUSD
-2025-06-19 23:34:53,075 - INFO - orders - [CURRENCY_CONVERT] Direct conversion prices from cache: None
-2025-06-19 23:34:53,076 - INFO - orders - [CURRENCY_CONVERT] No direct conversion rate found for JPYUSD, trying inverse
-2025-06-19 23:34:53,076 - INFO - orders - [CURRENCY_CONVERT] Trying inverse conversion with symbol: USDJPY
-2025-06-19 23:34:53,099 - INFO - orders - [CURRENCY_CONVERT] Inverse conversion prices from cache: {'b': Decimal('145.3830000000'), 'o': Decimal('145.3780000000')}
-2025-06-19 23:34:53,099 - INFO - orders - [CURRENCY_CONVERT] Found inverse conversion rate (bid): 145.3830000000
-2025-06-19 23:34:53,099 - INFO - orders - [CURRENCY_CONVERT] Inverse conversion successful: 942.06 JPY / 145.3830000000 = 6.479849776108623429149212769 USD
-2025-06-19 23:34:53,099 - INFO - orders - [MARGIN_CALC] Margin after USD conversion: 942.06 JPY -> 6.479849776108623429149212769 USD
-2025-06-19 23:34:53,099 - INFO - orders - [MARGIN_CALC] Final results for AUDJPY BUY_LIMIT: margin=6.479849776108623429149212769, price=94.2060000000, contract_value=1000.0000000000000000, commission=0.10
-2025-06-19 23:34:53,099 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Margin calculated successfully for order 3172438575: margin=6.479849776108623429149212769, exec_price=94.2060000000, contract_value=1000.0000000000000000
-2025-06-19 23:34:53,143 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Latest free_margin for user 1: 18780.03000000
-2025-06-19 23:34:53,143 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Executing order 3172438575 for user 1 at price 94.26400 (order_price=94.26500, type=BUY_LIMIT)
-2025-06-19 23:34:53,143 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Contract value calculated: 1000.0000000000000000
-2025-06-19 23:34:53,143 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Updated order object with calculated values: margin=6.479849776108623429149212769 (was None), contract_value=1000.0000000000000000, commission=0.10, execution_price=94.2060000000
-2025-06-19 23:34:53,143 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Updated order object with new values
-2025-06-19 23:34:53,143 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Margin check: current_margin=0E-8, new_margin=6.479849776108623429149212769, wallet_balance=18780.21000000
-2025-06-19 23:34:53,144 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Using margin with hedging applied: 6.479849776108623429149212769. Adding to current total margin: 0E-8
-2025-06-19 23:34:53,258 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] User margin updated successfully for user 1: 6.479849776108623429149212769 (includes hedging adjustments)
-2025-06-19 23:34:53,259 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Pending order 3172438575 for user 1 opened successfully. New total margin: 6.479849776108623429149212769
-2025-06-19 23:34:53,350 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Order 3172438575 status updated to OPEN in database
-2025-06-19 23:34:53,350 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Starting portfolio update for user 1
-2025-06-19 23:34:53,359 - ERROR - orders - [PENDING_ORDER_EXECUTION_DEBUG] Error updating portfolio cache or publishing websocket event: cannot access local variable 'get_last_known_price' where it is not associated with a value
-Traceback (most recent call last):
-  File "C:\Users\Dhanush\FASTAPI\app\services\pending_orders.py", line 539, in trigger_pending_order
-    prices = await get_last_known_price(redis_client, symbol_key)
-                   ^^^^^^^^^^^^^^^^^^^^
-UnboundLocalError: cannot access local variable 'get_last_known_price' where it is not associated with a value
-2025-06-19 23:34:53,360 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Successfully processed triggered pending order 3172438575 for user 1. Status set to OPEN. Order Type changed from BUY_LIMIT to BUY.
-2025-06-19 23:34:53,366 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Successfully removed order 3172438575 from Redis pending orders
-2025-06-19 23:34:53,369 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Published order execution notification for order 3172438575 to channel user:1:notifications
-2025-06-19 23:35:28,356 - app.api.v1.endpoints.orders - INFO - [get_rejected_orders] user_type: demo
-2025-06-19 23:55:36,757 - INFO - orders - Application starting up - Orders logging initialized
-2025-06-19 23:55:57,376 - app.api.v1.endpoints.orders - INFO - [get_rejected_orders] user_type: demo
-2025-06-19 23:56:09,474 - INFO - orders - Order close request received - Order ID: 3172438575, User ID: 1, Close Price: 94.153
-2025-06-19 23:56:09,475 - INFO - orders - user_to_operate_on: <app.database.models.DemoUser object at 0x00000249C540E3F0>, type: <class 'app.database.models.DemoUser'>, attrs: ['__abstract__', '__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__firstlineno__', '__format__', '__ge__', '__getattribute__', '__getstate__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__mapper__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__static_attributes__', '__str__', '__subclasshook__', '__table__', '__table_args__', '__tablename__', '__weakref__', '_sa_class_manager', '_sa_instance_state', '_sa_registry', 'account_number', 'city', 'country', 'created_at', 'demo_user_favorites', 'email', 'group_name', 'hashed_password', 'id', 'isActive', 'is_service_account', 'leverage', 'margin', 'metadata', 'name', 'net_profit', 'orders', 'otps', 'phone_number', 'pincode', 'referred_by_id', 'reffered_code', 'registry', 'security_answer', 'security_question', 'state', 'status', 'updated_at', 'user_type', 'wallet_balance', 'wallet_transactions']
-2025-06-19 23:56:09,475 - INFO - orders - Using order model: demo_user_orders for user 1 (DemoUser)
-2025-06-19 23:56:09,475 - INFO - orders - Request to close order 3172438575 for user 1 (DemoUser) with price 94.153. Frontend provided type: BUY, company: AUDJPY, status: CLOSED, frontend_status: CLOSED.
-2025-06-19 23:56:09,521 - INFO - orders - Demo user 1 from group 'default' ('sending_orders' is NOT 'barclays'). Processing close locally.
-2025-06-19 23:56:09,551 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB_ENTRY] User 1, Symbol AUDJPY, Positions count: 1
-2025-06-19 23:56:09,552 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB_POS_DETAIL] User 1, Symbol AUDJPY, Pos 1 (ID: 222): Type=BUY, Qty=0.01000000, StoredMargin=6.47984978
-2025-06-19 23:56:09,552 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB_POS_DETAIL] User 1, Symbol AUDJPY, Pos 1: MarginPerLot=647.984978
-2025-06-19 23:56:09,552 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB_CALC] User 1, Symbol AUDJPY: TotalBuyQty=0.01000000, TotalSellQty=0, NetQty=0.01000000
-2025-06-19 23:56:09,552 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB_CALC] User 1, Symbol AUDJPY: AllMarginsPerLot=[Decimal('647.984978')], HighestMarginPerLot=647.984978
-2025-06-19 23:56:09,552 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB_EXIT] User 1, Symbol AUDJPY: CalculatedTotalMargin=6.48, ContributingOrders=1 (based on individual stored margins)
-2025-06-19 23:56:09,552 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB_ENTRY] User 1, Symbol AUDJPY, Positions count: 0
-2025-06-19 23:56:09,552 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB] No open positions for User 1, Symbol AUDJPY. Returning zero margin.
-2025-06-19 23:56:09,594 - INFO - orders - Existing entry commission for order 3172438575: 0.10000000
-2025-06-19 23:56:09,594 - INFO - orders - Commission calculation for order 3172438575: entry=0.10000000, exit=0.100000000000, total=0.20
-2025-06-19 23:56:09,595 - INFO - orders - [CURRENCY_CONVERT] Starting conversion of -53.000000000000000000000000 JPY to USD for PnL on Close (user_id: 1, position: 3172438575)
-2025-06-19 23:56:09,595 - INFO - orders - [CURRENCY_CONVERT] Trying direct conversion with symbol: JPYUSD
-2025-06-19 23:56:09,599 - INFO - orders - [CURRENCY_CONVERT] Direct conversion prices from cache: None
-2025-06-19 23:56:09,599 - INFO - orders - [CURRENCY_CONVERT] No direct conversion rate found for JPYUSD, trying inverse
-2025-06-19 23:56:09,600 - INFO - orders - [CURRENCY_CONVERT] Trying inverse conversion with symbol: USDJPY
-2025-06-19 23:56:09,604 - INFO - orders - [CURRENCY_CONVERT] Inverse conversion prices from cache: {'b': Decimal('145.3820000000'), 'o': Decimal('145.3770000000')}
-2025-06-19 23:56:09,605 - INFO - orders - [CURRENCY_CONVERT] Found inverse conversion rate (bid): 145.3820000000
-2025-06-19 23:56:09,605 - INFO - orders - [CURRENCY_CONVERT] Inverse conversion successful: -53.000000000000000000000000 JPY / 145.3820000000 = -0.3645568227153292704736487323 USD
-2025-06-19 23:56:09,698 - INFO - orders - AFTER COMMIT: User 1 wallet_balance=18779.47000000, margin=0
-2025-06-19 23:56:09,698 - INFO - orders - Setting user data cache for user 1 with wallet_balance=18779.47000000, margin=0
-2025-06-19 23:56:09,705 - INFO - orders - User data cache updated for user 1
-2025-06-19 23:56:09,705 - INFO - orders - Starting update_user_static_orders for user 1, user_type demo
-2025-06-19 23:56:09,705 - INFO - orders - Using order model: DemoUserOrder
-2025-06-19 23:56:09,715 - INFO - orders - Fetched 0 open orders for user 1
-2025-06-19 23:56:09,730 - INFO - orders - Fetched 0 pending orders for user 1
-2025-06-19 23:56:09,738 - INFO - orders - Updated static orders cache for user 1 with 0 open orders and 0 pending orders
-2025-06-19 23:56:09,739 - INFO - orders - Publishing order update for user 1
-2025-06-19 23:56:09,764 - INFO - orders - Publishing user data update for user 1
-2025-06-19 23:56:09,785 - INFO - orders - Publishing market data trigger
-2025-06-19 23:56:12,823 - app.api.v1.endpoints.orders - INFO - [get_closed_orders] user_type: demo
-2025-06-19 23:56:35,840 - INFO - orders - Pending order placement request received - User ID: 1, Symbol: AUDJPY, Type: BUY_LIMIT, Quantity: 0.01
-2025-06-19 23:56:35,880 - INFO - orders - Validating pending order price: Order type=BUY_LIMIT, Order price=94.24, Current buy price=94.2420000000, Current sell price=94.1360000000
-2025-06-19 23:56:35,912 - INFO - orders - Calculated contract_value for pending order: 1000.0000000000 (contract_size: 100000.00000000 * quantity: 0.01)
-2025-06-19 23:56:35,918 - INFO - orders - [DEBUG] User data from cache: {'id': 1, 'email': 'dhanush777ss@gmail.com', 'group_name': 'Group B', 'leverage': Decimal('100.00'), 'user_type': 'demo', 'account_number': '5O42G', 'wallet_balance': Decimal('18779.47000000'), 'margin': Decimal('0'), 'first_name': None, 'last_name': None, 'country': None, 'phone_number': Decimal('8618025298')}
-2025-06-19 23:56:35,919 - INFO - orders - [DEBUG] Group name: Group B
-2025-06-19 23:56:35,925 - INFO - orders - [DEBUG] Group settings from cache: {'sending_orders': 'barclays'}
-2025-06-19 23:56:35,925 - INFO - orders - [DEBUG] sending_orders value: barclays, type: <class 'str'>
-2025-06-19 23:56:35,925 - INFO - orders - [DEBUG] sending_orders_normalized: barclays
-2025-06-19 23:56:35,925 - INFO - orders - User 1 is_barclays_live_user: False (user_type: demo, sending_orders_normalized: barclays)
-2025-06-19 23:56:35,945 - INFO - orders - [DEBUG][pending_order] Prepared order_data_for_internal_processing: {'order_id': '2544298301', 'order_company_name': 'AUDJPY', 'order_type': 'BUY_LIMIT', 'order_quantity': Decimal('0.01'), 'order_price': Decimal('94.24'), 'user_type': 'demo', 'status': 'PENDING', 'stop_loss': Decimal('0'), 'take_profit': Decimal('0'), 'stoploss_id': '3946482795', 'takeprofit_id': '7530320926', 'order_user_id': 1, 'order_status': 'PENDING', 'contract_value': Decimal('1000.0000000000'), 'margin': None, 'open_time': None}
-2025-06-19 23:56:35,945 - INFO - orders - Placing PENDING order: BUY_LIMIT for user 1 at price 94.24
-2025-06-19 23:56:36,053 - INFO - orders - Order 2544298301 verified in database on attempt 1 before adding to Redis.
-2025-06-19 23:56:36,071 - INFO - orders - Pending order 2544298301 added to Redis for non-Barclays user or demo user.
-2025-06-19 23:56:36,086 - INFO - orders - User data cache updated for user 1 after placing pending order
-2025-06-19 23:56:36,086 - INFO - orders - Starting update_user_static_orders for user 1, user_type demo
-2025-06-19 23:56:36,086 - INFO - orders - Using order model: DemoUserOrder
-2025-06-19 23:56:36,130 - INFO - orders - Fetched 0 open orders for user 1
-2025-06-19 23:56:36,136 - INFO - orders - Fetched 1 pending orders for user 1
-2025-06-19 23:56:36,140 - INFO - orders - Updated static orders cache for user 1 with 0 open orders and 1 pending orders
-2025-06-19 23:56:36,604 - INFO - orders - [PENDING_ORDER_EXECUTION] Raw values - order_price: 94.24000000, adjusted_buy_price: 94.243
-2025-06-19 23:56:36,604 - INFO - orders - [PENDING_ORDER_EXECUTION] BUY_LIMIT/SELL_STOP check: 94.24300 <= 94.24000 = False
-2025-06-19 23:56:36,604 - INFO - orders - [PENDING_ORDER_EXECUTION] Price comparison values - adjusted_buy_price_normalized: 94.24300 (<class 'decimal.Decimal'>), order_price_normalized: 94.24000 (<class 'decimal.Decimal'>)
-2025-06-19 23:56:36,604 - INFO - orders - [PENDING_ORDER_EXECUTION] String comparison for prices: '94.24300' vs '94.24000'
-2025-06-19 23:56:36,604 - INFO - orders - [PENDING_ORDER_EXECUTION] Absolute price difference: 0.00300
-2025-06-19 23:56:36,605 - INFO - orders - [PENDING_ORDER_EXECUTION] Prices within epsilon tolerance: False (epsilon=0.00001)
-2025-06-19 23:56:36,605 - INFO - orders - [PENDING_ORDER_EXECUTION] BUY_LIMIT/SELL_STOP with epsilon: False
-2025-06-19 23:56:36,605 - INFO - orders - [PENDING_ORDER_EXECUTION] Checking order 2544298301: type=BUY_LIMIT, adjusted_buy_price=94.24300, order_price=94.24000, should_trigger=False
-2025-06-19 23:56:36,605 - INFO - orders - [PENDING_ORDER_EXECUTION] Order 2544298301 conditions not met for execution. Skipping.
-2025-06-19 23:56:41,106 - INFO - orders - [PENDING_ORDER_EXECUTION] Raw values - order_price: 94.24000000, adjusted_buy_price: 94.242
-2025-06-19 23:56:41,106 - INFO - orders - [PENDING_ORDER_EXECUTION] BUY_LIMIT/SELL_STOP check: 94.24200 <= 94.24000 = False
-2025-06-19 23:56:41,106 - INFO - orders - [PENDING_ORDER_EXECUTION] Price comparison values - adjusted_buy_price_normalized: 94.24200 (<class 'decimal.Decimal'>), order_price_normalized: 94.24000 (<class 'decimal.Decimal'>)
-2025-06-19 23:56:41,107 - INFO - orders - [PENDING_ORDER_EXECUTION] String comparison for prices: '94.24200' vs '94.24000'
-2025-06-19 23:56:41,107 - INFO - orders - [PENDING_ORDER_EXECUTION] Absolute price difference: 0.00200
-2025-06-19 23:56:41,107 - INFO - orders - [PENDING_ORDER_EXECUTION] Prices within epsilon tolerance: False (epsilon=0.00001)
-2025-06-19 23:56:41,107 - INFO - orders - [PENDING_ORDER_EXECUTION] BUY_LIMIT/SELL_STOP with epsilon: False
-2025-06-19 23:56:41,107 - INFO - orders - [PENDING_ORDER_EXECUTION] Checking order 2544298301: type=BUY_LIMIT, adjusted_buy_price=94.24200, order_price=94.24000, should_trigger=False
-2025-06-19 23:56:41,107 - INFO - orders - [PENDING_ORDER_EXECUTION] Order 2544298301 conditions not met for execution. Skipping.
-2025-06-19 23:56:43,515 - INFO - orders - [PENDING_ORDER_EXECUTION] Raw values - order_price: 94.24000000, adjusted_buy_price: 94.243
-2025-06-19 23:56:43,515 - INFO - orders - [PENDING_ORDER_EXECUTION] BUY_LIMIT/SELL_STOP check: 94.24300 <= 94.24000 = False
-2025-06-19 23:56:43,515 - INFO - orders - [PENDING_ORDER_EXECUTION] Price comparison values - adjusted_buy_price_normalized: 94.24300 (<class 'decimal.Decimal'>), order_price_normalized: 94.24000 (<class 'decimal.Decimal'>)
-2025-06-19 23:56:43,515 - INFO - orders - [PENDING_ORDER_EXECUTION] String comparison for prices: '94.24300' vs '94.24000'
-2025-06-19 23:56:43,516 - INFO - orders - [PENDING_ORDER_EXECUTION] Absolute price difference: 0.00300
-2025-06-19 23:56:43,516 - INFO - orders - [PENDING_ORDER_EXECUTION] Prices within epsilon tolerance: False (epsilon=0.00001)
-2025-06-19 23:56:43,516 - INFO - orders - [PENDING_ORDER_EXECUTION] BUY_LIMIT/SELL_STOP with epsilon: False
-2025-06-19 23:56:43,516 - INFO - orders - [PENDING_ORDER_EXECUTION] Checking order 2544298301: type=BUY_LIMIT, adjusted_buy_price=94.24300, order_price=94.24000, should_trigger=False
-2025-06-19 23:56:43,516 - INFO - orders - [PENDING_ORDER_EXECUTION] Order 2544298301 conditions not met for execution. Skipping.
-2025-06-19 23:56:48,164 - INFO - orders - [PENDING_ORDER_EXECUTION] Raw values - order_price: 94.24000000, adjusted_buy_price: 94.238
-2025-06-19 23:56:48,165 - INFO - orders - [PENDING_ORDER_EXECUTION] BUY_LIMIT/SELL_STOP check: 94.23800 <= 94.24000 = True
-2025-06-19 23:56:48,165 - INFO - orders - [PENDING_ORDER_EXECUTION] Price comparison values - adjusted_buy_price_normalized: 94.23800 (<class 'decimal.Decimal'>), order_price_normalized: 94.24000 (<class 'decimal.Decimal'>)
-2025-06-19 23:56:48,165 - INFO - orders - [PENDING_ORDER_EXECUTION] String comparison for prices: '94.23800' vs '94.24000'
-2025-06-19 23:56:48,165 - INFO - orders - [PENDING_ORDER_EXECUTION] Absolute price difference: 0.00200
-2025-06-19 23:56:48,165 - INFO - orders - [PENDING_ORDER_EXECUTION] Prices within epsilon tolerance: False (epsilon=0.00001)
-2025-06-19 23:56:48,165 - INFO - orders - [PENDING_ORDER_EXECUTION] BUY_LIMIT/SELL_STOP with epsilon: True
-2025-06-19 23:56:48,165 - INFO - orders - [PENDING_ORDER_EXECUTION] Checking order 2544298301: type=BUY_LIMIT, adjusted_buy_price=94.23800, order_price=94.24000, should_trigger=True
-2025-06-19 23:56:48,165 - INFO - orders - [PENDING_ORDER_EXECUTION] Trigger condition met for order 2544298301. Executing trigger_pending_order.
-2025-06-19 23:56:48,165 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Starting trigger_pending_order for order 2544298301, user 1, symbol AUDJPY, type BUY_LIMIT
-2025-06-19 23:56:48,174 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] User data loaded for user 1: group=Group B, wallet_balance=18779.47000000
-2025-06-19 23:56:48,205 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Group settings loaded for group Group B
-2025-06-19 23:56:48,215 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Database order 2544298301 found on attempt 1
-2025-06-19 23:56:48,215 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Database order loaded: status=PENDING, price=94.24000000
-2025-06-19 23:56:48,228 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Adjusted prices loaded: {'buy': Decimal('94.2380000000'), 'sell': Decimal('94.1320000000'), 'spread_value': Decimal('0.10000000')}
-2025-06-19 23:56:48,228 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Normalized prices for comparison - order_price: 94.24000, adjusted_buy_price: 94.23800, adjusted_sell_price: 94.13200
-2025-06-19 23:56:48,229 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] BUY_LIMIT/SELL_STOP check: 94.23800 <= 94.24000 = True
-2025-06-19 23:56:48,229 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Checking order 2544298301: type=BUY_LIMIT, adjusted_buy_price=94.23800, order_price=94.24000, should_trigger=True
-2025-06-19 23:56:48,229 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Price comparison values - adjusted_buy_price_normalized: 94.23800 (<class 'decimal.Decimal'>), order_price_normalized: 94.24000 (<class 'decimal.Decimal'>)
-2025-06-19 23:56:48,229 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Raw price values - adjusted_buy_price: 94.2380000000 (<class 'decimal.Decimal'>), order_price: 94.24000000 (<class 'decimal.Decimal'>)
-2025-06-19 23:56:48,229 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] String comparison for prices: '94.23800' vs '94.24000'
-2025-06-19 23:56:48,230 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Absolute price difference: 0.00200
-2025-06-19 23:56:48,230 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Prices within epsilon tolerance: False (epsilon=0.00001)
-2025-06-19 23:56:48,230 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] BUY_LIMIT/SELL_STOP with epsilon: True
-2025-06-19 23:56:48,237 - INFO - orders - [SYMBOL_INFO] Retrieved external symbol info for AUDJPY: contract_size=100000.00000000, profit_currency=JPY, digit=3.00000
-2025-06-19 23:56:48,237 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] External symbol info loaded: {'contract_size': Decimal('100000.00000000'), 'profit_currency': 'JPY', 'digit': Decimal('3.00000')}
-2025-06-19 23:56:48,238 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Raw market data loaded: {'b': '94.1880000000', 'o': '94.1820000000'}
-2025-06-19 23:56:48,238 - INFO - orders - [MARGIN_CALC] Starting margin calculation for AUDJPY BUY_LIMIT order, quantity: 0.01000000
-2025-06-19 23:56:48,238 - INFO - orders - [MARGIN_CALC] No group_name in settings, fetching for user 1
-2025-06-19 23:56:48,246 - INFO - orders - [MARGIN_CALC] Contract size for AUDJPY: 100000.00000000 (raw: 100000.00000000, type: <class 'decimal.Decimal'>)
-2025-06-19 23:56:48,252 - INFO - orders - [MARGIN_CALC] Got BUY price for AUDJPY from cache: 94.1820000000
-2025-06-19 23:56:48,252 - INFO - orders - [MARGIN_CALC] Contract value calculation for AUDJPY:
-2025-06-19 23:56:48,252 - INFO - orders - [MARGIN_CALC] Contract value = contract_size * quantity = 100000.00000000 * 0.01000000 = 1000.0000000000000000
-2025-06-19 23:56:48,262 - INFO - orders - [MARGIN_CALC] Using default leverage: 100
-2025-06-19 23:56:48,262 - INFO - orders - [MARGIN_CALC] Margin calculation: (contract_value * price) / effective_leverage = (1000.0000000000000000 * 94.1820000000) / 100 = 941.82000000000000000000000 (rounded to 941.82)
-2025-06-19 23:56:48,262 - INFO - orders - [MARGIN_CALC] Commission settings for AUDJPY: type=0, value_type=0, rate=10.0000
-2025-06-19 23:56:48,263 - INFO - orders - [MARGIN_CALC] Per lot commission: 0.01000000 * 10.0000 = 0.100000000000
-2025-06-19 23:56:48,263 - INFO - orders - [MARGIN_CALC] Profit currency for AUDJPY: JPY
-2025-06-19 23:56:48,263 - INFO - orders - [MARGIN_CALC] Converting margin from JPY to USD: 941.82 JPY
-2025-06-19 23:56:48,263 - INFO - orders - [CURRENCY_CONVERT] Starting conversion of 941.82 JPY to USD for margin for AUDJPY BUY_LIMIT order (user_id: 1, position: )
-2025-06-19 23:56:48,263 - INFO - orders - [CURRENCY_CONVERT] Trying direct conversion with symbol: JPYUSD
-2025-06-19 23:56:48,268 - INFO - orders - [CURRENCY_CONVERT] Direct conversion prices from cache: None
-2025-06-19 23:56:48,269 - INFO - orders - [CURRENCY_CONVERT] No direct conversion rate found for JPYUSD, trying inverse
-2025-06-19 23:56:48,270 - INFO - orders - [CURRENCY_CONVERT] Trying inverse conversion with symbol: USDJPY
-2025-06-19 23:56:48,276 - INFO - orders - [CURRENCY_CONVERT] Inverse conversion prices from cache: {'b': Decimal('145.3810000000'), 'o': Decimal('145.3750000000')}
-2025-06-19 23:56:48,277 - INFO - orders - [CURRENCY_CONVERT] Found inverse conversion rate (bid): 145.3810000000
-2025-06-19 23:56:48,277 - INFO - orders - [CURRENCY_CONVERT] Inverse conversion successful: 941.82 JPY / 145.3810000000 = 6.478288084412681161912492004 USD
-2025-06-19 23:56:48,277 - INFO - orders - [MARGIN_CALC] Margin after USD conversion: 941.82 JPY -> 6.478288084412681161912492004 USD
-2025-06-19 23:56:48,277 - INFO - orders - [MARGIN_CALC] Final results for AUDJPY BUY_LIMIT: margin=6.478288084412681161912492004, price=94.1820000000, contract_value=1000.0000000000000000, commission=0.10
-2025-06-19 23:56:48,277 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Margin calculated successfully for order 2544298301: margin=6.478288084412681161912492004, exec_price=94.1820000000, contract_value=1000.0000000000000000
-2025-06-19 23:56:48,299 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Latest free_margin for user 1: 18779.47000000
-2025-06-19 23:56:48,299 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Executing order 2544298301 for user 1 at price 94.23800 (order_price=94.24000, type=BUY_LIMIT)
-2025-06-19 23:56:48,300 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Contract value calculated: 1000.0000000000000000
-2025-06-19 23:56:48,300 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Updated order object with calculated values: margin=6.478288084412681161912492004 (was None), contract_value=1000.0000000000000000, commission=0.10, execution_price=94.1820000000
-2025-06-19 23:56:48,300 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Updated order object with new values and cleared SL/TP
-2025-06-19 23:56:48,300 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Margin check: current_margin=0E-8, new_margin=6.478288084412681161912492004, wallet_balance=18779.47000000
-2025-06-19 23:56:48,300 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Using margin with hedging applied: 6.478288084412681161912492004. Adding to current total margin: 0E-8
-2025-06-19 23:56:48,364 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] User margin updated successfully for user 1: 6.478288084412681161912492004 (includes hedging adjustments)
-2025-06-19 23:56:48,382 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Updated user data cache with new margin value: 6.47828808
-2025-06-19 23:56:48,388 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Published user data update notification for user 1
-2025-06-19 23:56:48,388 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Pending order 2544298301 for user 1 opened successfully. New total margin: 6.478288084412681161912492004
-2025-06-19 23:56:48,422 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Order 2544298301 status updated to OPEN in database
-2025-06-19 23:56:48,423 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Starting portfolio update for user 1
-2025-06-19 23:56:48,444 - ERROR - orders - [PENDING_ORDER_EXECUTION_DEBUG] Error updating portfolio cache or publishing websocket event: cannot access local variable 'get_last_known_price' where it is not associated with a value
-Traceback (most recent call last):
-  File "C:\Users\Dhanush\FASTAPI\app\services\pending_orders.py", line 576, in trigger_pending_order
-    prices = await get_last_known_price(redis_client, symbol_key)
-                   ^^^^^^^^^^^^^^^^^^^^
-UnboundLocalError: cannot access local variable 'get_last_known_price' where it is not associated with a value
-2025-06-19 23:56:48,450 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Successfully processed triggered pending order 2544298301 for user 1. Status set to OPEN. Order Type changed from BUY_LIMIT to BUY.
-2025-06-19 23:56:48,461 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Successfully removed order 2544298301 from Redis pending orders
-2025-06-19 23:56:48,465 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Published order execution notification for order 2544298301 to channel user:1:notifications
-2025-06-19 23:57:28,133 - INFO - orders - Pending order placement request received - User ID: 1, Symbol: AUDJPY, Type: BUY_LIMIT, Quantity: 0.01
-2025-06-19 23:57:28,175 - INFO - orders - Validating pending order price: Order type=BUY_LIMIT, Order price=94.23, Current buy price=94.2330000000, Current sell price=94.1270000000
-2025-06-19 23:57:28,186 - INFO - orders - Calculated contract_value for pending order: 1000.0000000000 (contract_size: 100000.00000000 * quantity: 0.01)
-2025-06-19 23:57:28,190 - INFO - orders - [DEBUG] User data from cache: {'id': 1, 'email': 'dhanush777ss@gmail.com', 'group_name': 'Group B', 'leverage': Decimal('100.00'), 'user_type': 'demo', 'account_number': '5O42G', 'wallet_balance': Decimal('18779.47000000'), 'margin': Decimal('6.47828808'), 'first_name': None, 'last_name': None, 'country': None, 'phone_number': Decimal('8618025298')}
-2025-06-19 23:57:28,190 - INFO - orders - [DEBUG] Group name: Group B
-2025-06-19 23:57:28,195 - INFO - orders - [DEBUG] Group settings from cache: {'sending_orders': 'barclays'}
-2025-06-19 23:57:28,196 - INFO - orders - [DEBUG] sending_orders value: barclays, type: <class 'str'>
-2025-06-19 23:57:28,196 - INFO - orders - [DEBUG] sending_orders_normalized: barclays
-2025-06-19 23:57:28,196 - INFO - orders - User 1 is_barclays_live_user: False (user_type: demo, sending_orders_normalized: barclays)
-2025-06-19 23:57:28,222 - INFO - orders - [DEBUG][pending_order] Prepared order_data_for_internal_processing: {'order_id': '7377257553', 'order_company_name': 'AUDJPY', 'order_type': 'BUY_LIMIT', 'order_quantity': Decimal('0.01'), 'order_price': Decimal('94.23'), 'user_type': 'demo', 'status': 'PENDING', 'stop_loss': Decimal('0'), 'take_profit': Decimal('0'), 'stoploss_id': '5778743952', 'takeprofit_id': '1056351540', 'order_user_id': 1, 'order_status': 'PENDING', 'contract_value': Decimal('1000.0000000000'), 'margin': None, 'open_time': None}
-2025-06-19 23:57:28,222 - INFO - orders - Placing PENDING order: BUY_LIMIT for user 1 at price 94.23
-2025-06-19 23:57:28,338 - INFO - orders - Order 7377257553 verified in database on attempt 1 before adding to Redis.
-2025-06-19 23:57:28,356 - INFO - orders - Pending order 7377257553 added to Redis for non-Barclays user or demo user.
-2025-06-19 23:57:28,366 - INFO - orders - User data cache updated for user 1 after placing pending order
-2025-06-19 23:57:28,366 - INFO - orders - Starting update_user_static_orders for user 1, user_type demo
-2025-06-19 23:57:28,366 - INFO - orders - Using order model: DemoUserOrder
-2025-06-19 23:57:28,377 - INFO - orders - Fetched 1 open orders for user 1
-2025-06-19 23:57:28,452 - INFO - orders - Fetched 1 pending orders for user 1
-2025-06-19 23:57:28,487 - INFO - orders - Updated static orders cache for user 1 with 1 open orders and 1 pending orders
-2025-06-19 23:57:29,903 - INFO - orders - [PENDING_ORDER_EXECUTION] Raw values - order_price: 94.23000000, adjusted_buy_price: 94.232
-2025-06-19 23:57:29,904 - INFO - orders - [PENDING_ORDER_EXECUTION] BUY_LIMIT/SELL_STOP check: 94.23200 <= 94.23000 = False
-2025-06-19 23:57:29,904 - INFO - orders - [PENDING_ORDER_EXECUTION] Price comparison values - adjusted_buy_price_normalized: 94.23200 (<class 'decimal.Decimal'>), order_price_normalized: 94.23000 (<class 'decimal.Decimal'>)
-2025-06-19 23:57:29,904 - INFO - orders - [PENDING_ORDER_EXECUTION] String comparison for prices: '94.23200' vs '94.23000'
-2025-06-19 23:57:29,904 - INFO - orders - [PENDING_ORDER_EXECUTION] Absolute price difference: 0.00200
-2025-06-19 23:57:29,904 - INFO - orders - [PENDING_ORDER_EXECUTION] Prices within epsilon tolerance: False (epsilon=0.00001)
-2025-06-19 23:57:29,904 - INFO - orders - [PENDING_ORDER_EXECUTION] BUY_LIMIT/SELL_STOP with epsilon: False
-2025-06-19 23:57:29,904 - INFO - orders - [PENDING_ORDER_EXECUTION] Checking order 7377257553: type=BUY_LIMIT, adjusted_buy_price=94.23200, order_price=94.23000, should_trigger=False
-2025-06-19 23:57:29,904 - INFO - orders - [PENDING_ORDER_EXECUTION] Order 7377257553 conditions not met for execution. Skipping.
-2025-06-19 23:57:32,073 - INFO - orders - [PENDING_ORDER_EXECUTION] Raw values - order_price: 94.23000000, adjusted_buy_price: 94.23
-2025-06-19 23:57:32,073 - INFO - orders - [PENDING_ORDER_EXECUTION] BUY_LIMIT/SELL_STOP check: 94.23000 <= 94.23000 = True
-2025-06-19 23:57:32,073 - INFO - orders - [PENDING_ORDER_EXECUTION] Price comparison values - adjusted_buy_price_normalized: 94.23000 (<class 'decimal.Decimal'>), order_price_normalized: 94.23000 (<class 'decimal.Decimal'>)
-2025-06-19 23:57:32,073 - INFO - orders - [PENDING_ORDER_EXECUTION] String comparison for prices: '94.23000' vs '94.23000'
-2025-06-19 23:57:32,074 - INFO - orders - [PENDING_ORDER_EXECUTION] Absolute price difference: 0.00000
-2025-06-19 23:57:32,074 - INFO - orders - [PENDING_ORDER_EXECUTION] Prices within epsilon tolerance: True (epsilon=0.00001)
-2025-06-19 23:57:32,074 - INFO - orders - [PENDING_ORDER_EXECUTION] BUY_LIMIT/SELL_STOP with epsilon: True
-2025-06-19 23:57:32,074 - INFO - orders - [PENDING_ORDER_EXECUTION] Checking order 7377257553: type=BUY_LIMIT, adjusted_buy_price=94.23000, order_price=94.23000, should_trigger=True
-2025-06-19 23:57:32,074 - INFO - orders - [PENDING_ORDER_EXECUTION] Trigger condition met for order 7377257553. Executing trigger_pending_order.
-2025-06-19 23:57:32,074 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Starting trigger_pending_order for order 7377257553, user 1, symbol AUDJPY, type BUY_LIMIT
-2025-06-19 23:57:32,079 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] User data loaded for user 1: group=Group B, wallet_balance=18779.47000000
-2025-06-19 23:57:32,091 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Group settings loaded for group Group B
-2025-06-19 23:57:32,109 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Database order 7377257553 found on attempt 1
-2025-06-19 23:57:32,110 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Database order loaded: status=PENDING, price=94.23000000
-2025-06-19 23:57:32,125 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Adjusted prices loaded: {'buy': Decimal('94.2300000000'), 'sell': Decimal('94.1240000000'), 'spread_value': Decimal('0.10000000')}
-2025-06-19 23:57:32,126 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Normalized prices for comparison - order_price: 94.23000, adjusted_buy_price: 94.23000, adjusted_sell_price: 94.12400
-2025-06-19 23:57:32,126 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] BUY_LIMIT/SELL_STOP check: 94.23000 <= 94.23000 = True
-2025-06-19 23:57:32,126 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Checking order 7377257553: type=BUY_LIMIT, adjusted_buy_price=94.23000, order_price=94.23000, should_trigger=True
-2025-06-19 23:57:32,126 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Price comparison values - adjusted_buy_price_normalized: 94.23000 (<class 'decimal.Decimal'>), order_price_normalized: 94.23000 (<class 'decimal.Decimal'>)
-2025-06-19 23:57:32,126 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Raw price values - adjusted_buy_price: 94.2300000000 (<class 'decimal.Decimal'>), order_price: 94.23000000 (<class 'decimal.Decimal'>)
-2025-06-19 23:57:32,127 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] String comparison for prices: '94.23000' vs '94.23000'
-2025-06-19 23:57:32,127 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Absolute price difference: 0.00000
-2025-06-19 23:57:32,127 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Prices within epsilon tolerance: True (epsilon=0.00001)
-2025-06-19 23:57:32,127 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] BUY_LIMIT/SELL_STOP with epsilon: True
-2025-06-19 23:57:32,137 - INFO - orders - [SYMBOL_INFO] Retrieved external symbol info for AUDJPY: contract_size=100000.00000000, profit_currency=JPY, digit=3.00000
-2025-06-19 23:57:32,138 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] External symbol info loaded: {'contract_size': Decimal('100000.00000000'), 'profit_currency': 'JPY', 'digit': Decimal('3.00000')}
-2025-06-19 23:57:32,138 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Raw market data loaded: {'b': '94.1800000000', 'o': '94.1740000000'}
-2025-06-19 23:57:32,138 - INFO - orders - [MARGIN_CALC] Starting margin calculation for AUDJPY BUY_LIMIT order, quantity: 0.01000000
-2025-06-19 23:57:32,138 - INFO - orders - [MARGIN_CALC] No group_name in settings, fetching for user 1
-2025-06-19 23:57:32,144 - INFO - orders - [MARGIN_CALC] Contract size for AUDJPY: 100000.00000000 (raw: 100000.00000000, type: <class 'decimal.Decimal'>)
-2025-06-19 23:57:32,150 - INFO - orders - [MARGIN_CALC] Got BUY price for AUDJPY from cache: 94.1740000000
-2025-06-19 23:57:32,150 - INFO - orders - [MARGIN_CALC] Contract value calculation for AUDJPY:
-2025-06-19 23:57:32,150 - INFO - orders - [MARGIN_CALC] Contract value = contract_size * quantity = 100000.00000000 * 0.01000000 = 1000.0000000000000000
-2025-06-19 23:57:32,160 - INFO - orders - [MARGIN_CALC] Using default leverage: 100
-2025-06-19 23:57:32,161 - INFO - orders - [MARGIN_CALC] Margin calculation: (contract_value * price) / effective_leverage = (1000.0000000000000000 * 94.1740000000) / 100 = 941.74000000000000000000000 (rounded to 941.74)
-2025-06-19 23:57:32,161 - INFO - orders - [MARGIN_CALC] Commission settings for AUDJPY: type=0, value_type=0, rate=10.0000
-2025-06-19 23:57:32,161 - INFO - orders - [MARGIN_CALC] Per lot commission: 0.01000000 * 10.0000 = 0.100000000000
-2025-06-19 23:57:32,161 - INFO - orders - [MARGIN_CALC] Profit currency for AUDJPY: JPY
-2025-06-19 23:57:32,162 - INFO - orders - [MARGIN_CALC] Converting margin from JPY to USD: 941.74 JPY
-2025-06-19 23:57:32,162 - INFO - orders - [CURRENCY_CONVERT] Starting conversion of 941.74 JPY to USD for margin for AUDJPY BUY_LIMIT order (user_id: 1, position: )
-2025-06-19 23:57:32,162 - INFO - orders - [CURRENCY_CONVERT] Trying direct conversion with symbol: JPYUSD
-2025-06-19 23:57:32,168 - INFO - orders - [CURRENCY_CONVERT] Direct conversion prices from cache: None
-2025-06-19 23:57:32,168 - INFO - orders - [CURRENCY_CONVERT] No direct conversion rate found for JPYUSD, trying inverse
-2025-06-19 23:57:32,168 - INFO - orders - [CURRENCY_CONVERT] Trying inverse conversion with symbol: USDJPY
-2025-06-19 23:57:32,174 - INFO - orders - [CURRENCY_CONVERT] Inverse conversion prices from cache: {'b': Decimal('145.3820000000'), 'o': Decimal('145.3790000000')}
-2025-06-19 23:57:32,174 - INFO - orders - [CURRENCY_CONVERT] Found inverse conversion rate (bid): 145.3820000000
-2025-06-19 23:57:32,174 - INFO - orders - [CURRENCY_CONVERT] Inverse conversion successful: 941.74 JPY / 145.3820000000 = 6.477693249508192210865169003 USD
-2025-06-19 23:57:32,175 - INFO - orders - [MARGIN_CALC] Margin after USD conversion: 941.74 JPY -> 6.477693249508192210865169003 USD
-2025-06-19 23:57:32,175 - INFO - orders - [MARGIN_CALC] Final results for AUDJPY BUY_LIMIT: margin=6.477693249508192210865169003, price=94.1740000000, contract_value=1000.0000000000000000, commission=0.10
-2025-06-19 23:57:32,175 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Margin calculated successfully for order 7377257553: margin=6.477693249508192210865169003, exec_price=94.1740000000, contract_value=1000.0000000000000000
-2025-06-19 23:57:32,197 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Latest free_margin for user 1: 18779.47000000
-2025-06-19 23:57:32,197 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Executing order 7377257553 for user 1 at price 94.23000 (order_price=94.23000, type=BUY_LIMIT)
-2025-06-19 23:57:32,197 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Contract value calculated: 1000.0000000000000000
-2025-06-19 23:57:32,197 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Updated order object with calculated values: margin=6.477693249508192210865169003 (was None), contract_value=1000.0000000000000000, commission=0.10, execution_price=94.1740000000
-2025-06-19 23:57:32,198 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Updated order object with new values and cleared SL/TP
-2025-06-19 23:57:32,198 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Margin check: current_margin=0E-8, new_margin=6.477693249508192210865169003, wallet_balance=18779.47000000
-2025-06-19 23:57:32,198 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Using margin with hedging applied: 6.477693249508192210865169003. Adding to current total margin: 0E-8
-2025-06-19 23:57:32,240 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] User margin updated successfully for user 1: 6.477693249508192210865169003 (includes hedging adjustments)
-2025-06-19 23:57:32,256 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Updated user data cache with new margin value: 6.47769325
-2025-06-19 23:57:32,262 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Published user data update notification for user 1
-2025-06-19 23:57:32,262 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Pending order 7377257553 for user 1 opened successfully. New total margin: 6.477693249508192210865169003
-2025-06-19 23:57:32,291 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Order 7377257553 status updated to OPEN in database
-2025-06-19 23:57:32,292 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Starting portfolio update for user 1
-2025-06-19 23:57:32,306 - ERROR - orders - [PENDING_ORDER_EXECUTION_DEBUG] Error updating portfolio cache or publishing websocket event: cannot access local variable 'get_last_known_price' where it is not associated with a value
-Traceback (most recent call last):
-  File "C:\Users\Dhanush\FASTAPI\app\services\pending_orders.py", line 576, in trigger_pending_order
-    prices = await get_last_known_price(redis_client, symbol_key)
-                   ^^^^^^^^^^^^^^^^^^^^
-UnboundLocalError: cannot access local variable 'get_last_known_price' where it is not associated with a value
-2025-06-19 23:57:32,310 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Successfully processed triggered pending order 7377257553 for user 1. Status set to OPEN. Order Type changed from BUY_LIMIT to BUY.
-2025-06-19 23:57:32,319 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Successfully removed order 7377257553 from Redis pending orders
-2025-06-19 23:57:32,323 - INFO - orders - [PENDING_ORDER_EXECUTION_DEBUG] Published order execution notification for order 7377257553 to channel user:1:notifications
+  File "C:\Users\Dhanush\FASTAPI\app\api\v1\endpoints\orders.py", line 2423, in cancel_stoploss
+    raise HTTPException(status_code=400, detail="No stop loss exists for this order")
+fastapi.exceptions.HTTPException: 400: No stop loss exists for this order
+2025-06-20 03:57:45,859 - app.api.v1.endpoints.orders - INFO - [get_rejected_orders] user_type: demo
+2025-06-20 03:58:20,213 - INFO - orders - Add stoploss request received - Order ID: 3339718299, User ID: 1
+2025-06-20 03:58:20,228 - INFO - orders - Generated stoploss_id: 4273052499 for order 3339718299
+2025-06-20 03:58:20,241 - INFO - orders - User 1 is_barclays_live_user: False
+2025-06-20 03:58:20,241 - INFO - orders - Non-Barclays user. Adding stoploss to order 3339718299 immediately
+2025-06-20 03:58:20,305 - INFO - orders - Starting update_user_static_orders for user 1, user_type demo
+2025-06-20 03:58:20,305 - INFO - orders - Using order model: DemoUserOrder
+2025-06-20 03:58:20,314 - INFO - orders - Fetched 1 open orders for user 1
+2025-06-20 03:58:20,332 - INFO - orders - Fetched 0 pending orders for user 1
+2025-06-20 03:58:20,343 - INFO - orders - Updated static orders cache for user 1 with 1 open orders and 0 pending orders
+2025-06-20 03:58:40,726 - INFO - orders - Cancel stoploss request received - Order ID: 3339718299, User ID: 1
+2025-06-20 03:58:40,760 - INFO - orders - User 1 is_barclays_live_user: False
+2025-06-20 03:58:40,796 - INFO - orders - Starting update_user_static_orders for user 1, user_type demo
+2025-06-20 03:58:40,796 - INFO - orders - Using order model: DemoUserOrder
+2025-06-20 03:58:40,803 - INFO - orders - Fetched 1 open orders for user 1
+2025-06-20 03:58:40,812 - INFO - orders - Fetched 0 pending orders for user 1
+2025-06-20 03:58:40,819 - INFO - orders - Updated static orders cache for user 1 with 1 open orders and 0 pending orders
+2025-06-20 03:58:47,104 - INFO - orders - Add stoploss request received - Order ID: 3339718299, User ID: 1
+2025-06-20 03:58:47,116 - INFO - orders - Generated stoploss_id: 9495769617 for order 3339718299
+2025-06-20 03:58:47,124 - INFO - orders - User 1 is_barclays_live_user: False
+2025-06-20 03:58:47,124 - INFO - orders - Non-Barclays user. Adding stoploss to order 3339718299 immediately
+2025-06-20 03:58:47,159 - INFO - orders - Starting update_user_static_orders for user 1, user_type demo
+2025-06-20 03:58:47,159 - INFO - orders - Using order model: DemoUserOrder
+2025-06-20 03:58:47,167 - INFO - orders - Fetched 1 open orders for user 1
+2025-06-20 03:58:47,177 - INFO - orders - Fetched 0 pending orders for user 1
+2025-06-20 03:58:47,185 - INFO - orders - Updated static orders cache for user 1 with 1 open orders and 0 pending orders
+2025-06-20 03:59:30,163 - INFO - orders - Application starting up - Orders logging initialized
+2025-06-20 03:59:32,298 - INFO - orders - [CURRENCY_CONVERT] Starting conversion of -100.1000000000000000000000000 JPY to USD for SL/TP profit conversion for order 3339718299 (user_id: 1, position: 3339718299)
+2025-06-20 03:59:32,298 - INFO - orders - [CURRENCY_CONVERT] Trying direct conversion with symbol: JPYUSD
+2025-06-20 03:59:32,300 - INFO - orders - [CURRENCY_CONVERT] Direct conversion prices from cache: None
+2025-06-20 03:59:32,300 - INFO - orders - [CURRENCY_CONVERT] No direct conversion rate found for JPYUSD, trying inverse
+2025-06-20 03:59:32,300 - INFO - orders - [CURRENCY_CONVERT] Trying inverse conversion with symbol: USDJPY
+2025-06-20 03:59:32,304 - INFO - orders - [CURRENCY_CONVERT] Inverse conversion prices from cache: {'b': Decimal('145.4390000000'), 'o': Decimal('145.4360000000')}
+2025-06-20 03:59:32,304 - INFO - orders - [CURRENCY_CONVERT] Found inverse conversion rate (bid): 145.4390000000
+2025-06-20 03:59:32,304 - INFO - orders - [CURRENCY_CONVERT] Inverse conversion successful: -100.1000000000000000000000000 JPY / 145.4390000000 = -0.6882610579005631226837368244 USD
+2025-06-20 04:00:29,483 - INFO - orders - Application starting up - Orders logging initialized
+2025-06-20 04:02:14,695 - app.api.v1.endpoints.orders - INFO - [get_rejected_orders] user_type: demo
+2025-06-20 04:04:25,051 - INFO - orders - Using adjusted buy price 0.8889100000 for BUY order
+2025-06-20 04:04:25,052 - INFO - orders - Order placement request received - Symbol: AUDCAD, Type: BUY, Price: 0.8889100000
+2025-06-20 04:04:25,058 - INFO - orders - [DEBUG] group_settings_cache: {'sending_orders': 'barclays'}
+2025-06-20 04:04:25,059 - INFO - orders - [DEBUG] sending_orders_cache value: barclays (type: <class 'str'>)
+2025-06-20 04:04:25,059 - INFO - orders - Order placement: user_id=1, is_barclays_live_user=False, user_type=demo, group_name=Group B, sending_orders_setting=barclays
+2025-06-20 04:04:25,936 - INFO - orders - [ORDER_MARGIN_CALC] Calculating margin for AUDCAD BUY order, quantity: 0.01
+2025-06-20 04:04:25,936 - INFO - orders - [ORDER_MARGIN_CALC] Contract size for AUDCAD: 100000.00000000 (raw: 100000.00000000, type: <class 'decimal.Decimal'>)
+2025-06-20 04:04:25,941 - INFO - orders - [ORDER_MARGIN_CALC] Got BUY price for AUDCAD from cache: 0.8889100000
+2025-06-20 04:04:25,941 - INFO - orders - [ORDER_MARGIN_CALC] Contract value calculation for AUDCAD:
+2025-06-20 04:04:25,942 - INFO - orders - [ORDER_MARGIN_CALC] Contract value = quantity * contract_size = 0.01 * 100000.00000000 = 1000.0000000000
+2025-06-20 04:04:25,942 - INFO - orders - [ORDER_MARGIN_CALC] Margin calculation: (contract_value * price) / leverage = (1000.0000000000 * 0.8889100000) / 100.00 = 8.889100000000000000 (rounded to 8.89)
+2025-06-20 04:04:25,942 - INFO - orders - [ORDER_MARGIN_CALC] Commission settings for AUDCAD: type=0, value_type=0, rate=10.0000
+2025-06-20 04:04:25,942 - INFO - orders - [ORDER_MARGIN_CALC] Per lot commission: 0.01 * 10.0000 = 0.100000
+2025-06-20 04:04:25,942 - INFO - orders - [ORDER_MARGIN_CALC] Profit currency for AUDCAD: CAD
+2025-06-20 04:04:25,943 - INFO - orders - [ORDER_MARGIN_CALC] Converting margin from CAD to USD: 8.89 CAD
+2025-06-20 04:04:25,943 - INFO - orders - [CURRENCY_CONVERT] Starting conversion of 8.89 CAD to USD for margin for AUDCAD BUY order (user_id: 1, position: )
+2025-06-20 04:04:25,943 - INFO - orders - [CURRENCY_CONVERT] Trying direct conversion with symbol: CADUSD
+2025-06-20 04:04:25,945 - INFO - orders - [CURRENCY_CONVERT] Direct conversion prices from cache: None
+2025-06-20 04:04:25,945 - INFO - orders - [CURRENCY_CONVERT] No direct conversion rate found for CADUSD, trying inverse
+2025-06-20 04:04:25,945 - INFO - orders - [CURRENCY_CONVERT] Trying inverse conversion with symbol: USDCAD
+2025-06-20 04:04:25,950 - INFO - orders - [CURRENCY_CONVERT] Inverse conversion prices from cache: {'b': Decimal('1.3705300000'), 'o': Decimal('1.3705100000')}
+2025-06-20 04:04:25,950 - INFO - orders - [CURRENCY_CONVERT] Found inverse conversion rate (bid): 1.3705300000
+2025-06-20 04:04:25,951 - INFO - orders - [CURRENCY_CONVERT] Inverse conversion successful: 8.89 CAD / 1.3705300000 = 6.486541702844884825578425864 USD
+2025-06-20 04:04:25,951 - INFO - orders - [ORDER_MARGIN_CALC] Margin after USD conversion: 8.89 CAD -> 6.486541702844884825578425864 USD
+2025-06-20 04:04:25,951 - INFO - orders - [ORDER_MARGIN_CALC] Final results for AUDCAD BUY: margin=6.486541702844884825578425864, price=0.8889100000, contract_value=1000.0000000000, commission=0.10
+2025-06-20 04:04:25,951 - app.services.order_processing - INFO - [COMMISSION_CALC] User 1 Symbol AUDCAD: Calculated commission=0.10
+2025-06-20 04:04:25,960 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB_ENTRY] User 1, Symbol AUDCAD, Positions count: 0
+2025-06-20 04:04:25,960 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB] No open positions for User 1, Symbol AUDCAD. Returning zero margin.
+2025-06-20 04:04:25,961 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB_ENTRY] User 1, Symbol AUDCAD, Positions count: 1
+2025-06-20 04:04:25,961 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB_POS_DETAIL] User 1, Symbol AUDCAD, Pos 1 (ID: NEW_UNSAVED): Type=BUY, Qty=0.01, StoredMargin=6.486541702844884825578425864
+2025-06-20 04:04:25,961 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB_POS_DETAIL] User 1, Symbol AUDCAD, Pos 1: MarginPerLot=648.6541702844884825578425864
+2025-06-20 04:04:25,961 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB_CALC] User 1, Symbol AUDCAD: TotalBuyQty=0.01, TotalSellQty=0, NetQty=0.01
+2025-06-20 04:04:25,961 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB_CALC] User 1, Symbol AUDCAD: AllMarginsPerLot=[Decimal('648.6541702844884825578425864')], HighestMarginPerLot=648.6541702844884825578425864
+2025-06-20 04:04:25,961 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB_EXIT] User 1, Symbol AUDCAD: CalculatedTotalMargin=6.49, ContributingOrders=1 (based on individual stored margins)
+2025-06-20 04:04:25,962 - app.services.order_processing - INFO - [MARGIN_PROCESS] User 1 Symbol AUDCAD: MarginBefore=0.00, MarginAfter=6.49, AdditionalMargin=6.49
+2025-06-20 04:04:25,974 - app.services.order_processing - INFO - [MARGIN_PROCESS] User 1: OriginalMarginDB=0E-8, CalculatedNewMargin=6.49
+2025-06-20 04:04:26,028 - INFO - orders - [PRE-CRUD] About to call create_order with: {'order_id': '8661687911', 'order_status': 'OPEN', 'order_user_id': 1, 'order_company_name': 'AUDCAD', 'order_type': 'BUY', 'order_price': Decimal('0.8889100000'), 'order_quantity': Decimal('0.01'), 'contract_value': Decimal('1000.0000000000'), 'margin': Decimal('6.486541702844884825578425864'), 'commission': Decimal('0.10'), 'stop_loss': None, 'take_profit': None, 'stoploss_id': None, 'takeprofit_id': None, 'status': 'OPEN'}
+2025-06-20 04:04:26,092 - INFO - orders - [MARGIN_COMMIT_CHECK] User 1 margin in session BEFORE commit: 6.49000000
+2025-06-20 04:04:26,125 - INFO - orders - User data cache updated for user 1 after placing order
+2025-06-20 04:04:26,648 - INFO - orders - Portfolio cache updated and websocket event published for user 1 after placing order.
+2025-06-20 04:04:26,653 - INFO - orders - Starting update_user_static_orders for user 1, user_type demo
+2025-06-20 04:04:26,653 - INFO - orders - Using order model: DemoUserOrder
+2025-06-20 04:04:26,658 - INFO - orders - Fetched 1 open orders for user 1
+2025-06-20 04:04:26,665 - INFO - orders - Fetched 0 pending orders for user 1
+2025-06-20 04:04:26,670 - INFO - orders - Updated static orders cache for user 1 with 1 open orders and 0 pending orders
+2025-06-20 04:04:41,872 - INFO - orders - Add stoploss request received - Order ID: 8661687911, User ID: 1
+2025-06-20 04:04:41,913 - INFO - orders - Generated stoploss_id: 9873555209 for order 8661687911
+2025-06-20 04:04:41,924 - INFO - orders - User 1 is_barclays_live_user: False
+2025-06-20 04:04:41,925 - INFO - orders - Non-Barclays user. Adding stoploss to order 8661687911 immediately
+2025-06-20 04:04:41,997 - INFO - orders - Starting update_user_static_orders for user 1, user_type demo
+2025-06-20 04:04:41,997 - INFO - orders - Using order model: DemoUserOrder
+2025-06-20 04:04:42,016 - INFO - orders - Fetched 1 open orders for user 1
+2025-06-20 04:04:42,029 - INFO - orders - Fetched 0 pending orders for user 1
+2025-06-20 04:04:42,037 - INFO - orders - Updated static orders cache for user 1 with 1 open orders and 0 pending orders
+2025-06-20 04:04:43,512 - INFO - orders - [CURRENCY_CONVERT] Starting conversion of -0.16000000000000000000000000 CAD to USD for SL/TP profit conversion for order 8661687911 (user_id: 1, position: 8661687911)
+2025-06-20 04:04:43,512 - INFO - orders - [CURRENCY_CONVERT] Trying direct conversion with symbol: CADUSD
+2025-06-20 04:04:43,524 - INFO - orders - [CURRENCY_CONVERT] Direct conversion prices from cache: None
+2025-06-20 04:04:43,524 - INFO - orders - [CURRENCY_CONVERT] No direct conversion rate found for CADUSD, trying inverse
+2025-06-20 04:04:43,524 - INFO - orders - [CURRENCY_CONVERT] Trying inverse conversion with symbol: USDCAD
+2025-06-20 04:04:43,537 - INFO - orders - [CURRENCY_CONVERT] Inverse conversion prices from cache: {'b': Decimal('1.3705300000'), 'o': Decimal('1.3705100000')}
+2025-06-20 04:04:43,537 - INFO - orders - [CURRENCY_CONVERT] Found inverse conversion rate (bid): 1.3705300000
+2025-06-20 04:04:43,537 - INFO - orders - [CURRENCY_CONVERT] Inverse conversion successful: -0.16000000000000000000000000 CAD / 1.3705300000 = -0.1167431577564883658146848300 USD
+2025-06-20 04:28:45,637 - INFO - orders - Application starting up - Orders logging initialized
+2025-06-20 04:29:15,963 - app.api.v1.endpoints.orders - INFO - [get_rejected_orders] user_type: demo
+2025-06-20 04:29:30,410 - INFO - orders - Using adjusted buy price 0.5303800000 for BUY order
+2025-06-20 04:29:30,411 - INFO - orders - Order placement request received - Symbol: AUDCHF, Type: BUY, Price: 0.5303800000
+2025-06-20 04:29:30,414 - INFO - orders - [DEBUG] group_settings_cache: {'sending_orders': 'barclays'}
+2025-06-20 04:29:30,415 - INFO - orders - [DEBUG] sending_orders_cache value: barclays (type: <class 'str'>)
+2025-06-20 04:29:30,415 - INFO - orders - Order placement: user_id=1, is_barclays_live_user=False, user_type=demo, group_name=Group B, sending_orders_setting=barclays
+2025-06-20 04:29:30,787 - INFO - orders - [ORDER_MARGIN_CALC] Calculating margin for AUDCHF BUY order, quantity: 0.01
+2025-06-20 04:29:30,788 - INFO - orders - [ORDER_MARGIN_CALC] Contract size for AUDCHF: 100000.00000000 (raw: 100000.00000000, type: <class 'decimal.Decimal'>)
+2025-06-20 04:29:30,798 - INFO - orders - [ORDER_MARGIN_CALC] Got BUY price for AUDCHF from cache: 0.5303800000
+2025-06-20 04:29:30,799 - INFO - orders - [ORDER_MARGIN_CALC] Contract value calculation for AUDCHF:
+2025-06-20 04:29:30,799 - INFO - orders - [ORDER_MARGIN_CALC] Contract value = quantity * contract_size = 0.01 * 100000.00000000 = 1000.0000000000
+2025-06-20 04:29:30,799 - INFO - orders - [ORDER_MARGIN_CALC] Margin calculation: (contract_value * price) / leverage = (1000.0000000000 * 0.5303800000) / 100.00 = 5.303800000000000000 (rounded to 5.30)
+2025-06-20 04:29:30,800 - INFO - orders - [ORDER_MARGIN_CALC] Commission settings for AUDCHF: type=0, value_type=0, rate=10.0000
+2025-06-20 04:29:30,800 - INFO - orders - [ORDER_MARGIN_CALC] Per lot commission: 0.01 * 10.0000 = 0.100000
+2025-06-20 04:29:30,800 - INFO - orders - [ORDER_MARGIN_CALC] Profit currency for AUDCHF: CHF
+2025-06-20 04:29:30,800 - INFO - orders - [ORDER_MARGIN_CALC] Converting margin from CHF to USD: 5.30 CHF
+2025-06-20 04:29:30,801 - INFO - orders - [CURRENCY_CONVERT] Starting conversion of 5.30 CHF to USD for margin for AUDCHF BUY order (user_id: 1, position: )
+2025-06-20 04:29:30,801 - INFO - orders - [CURRENCY_CONVERT] Trying direct conversion with symbol: CHFUSD
+2025-06-20 04:29:30,806 - INFO - orders - [CURRENCY_CONVERT] Direct conversion prices from cache: None
+2025-06-20 04:29:30,806 - INFO - orders - [CURRENCY_CONVERT] No direct conversion rate found for CHFUSD, trying inverse
+2025-06-20 04:29:30,806 - INFO - orders - [CURRENCY_CONVERT] Trying inverse conversion with symbol: USDCHF
+2025-06-20 04:29:30,810 - INFO - orders - [CURRENCY_CONVERT] Inverse conversion prices from cache: {'b': Decimal('0.8175900000'), 'o': Decimal('0.8175400000')}
+2025-06-20 04:29:30,810 - INFO - orders - [CURRENCY_CONVERT] Found inverse conversion rate (bid): 0.8175900000
+2025-06-20 04:29:30,811 - INFO - orders - [CURRENCY_CONVERT] Inverse conversion successful: 5.30 CHF / 0.8175900000 = 6.482466762069007693342628946 USD
+2025-06-20 04:29:30,811 - INFO - orders - [ORDER_MARGIN_CALC] Margin after USD conversion: 5.30 CHF -> 6.482466762069007693342628946 USD
+2025-06-20 04:29:30,811 - INFO - orders - [ORDER_MARGIN_CALC] Final results for AUDCHF BUY: margin=6.482466762069007693342628946, price=0.5303800000, contract_value=1000.0000000000, commission=0.10
+2025-06-20 04:29:30,811 - app.services.order_processing - INFO - [COMMISSION_CALC] User 1 Symbol AUDCHF: Calculated commission=0.10
+2025-06-20 04:29:30,824 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB_ENTRY] User 1, Symbol AUDCHF, Positions count: 0
+2025-06-20 04:29:30,824 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB] No open positions for User 1, Symbol AUDCHF. Returning zero margin.
+2025-06-20 04:29:30,825 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB_ENTRY] User 1, Symbol AUDCHF, Positions count: 1
+2025-06-20 04:29:30,825 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB_POS_DETAIL] User 1, Symbol AUDCHF, Pos 1 (ID: NEW_UNSAVED): Type=BUY, Qty=0.01, StoredMargin=6.482466762069007693342628946
+2025-06-20 04:29:30,825 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB_POS_DETAIL] User 1, Symbol AUDCHF, Pos 1: MarginPerLot=648.2466762069007693342628946
+2025-06-20 04:29:30,825 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB_CALC] User 1, Symbol AUDCHF: TotalBuyQty=0.01, TotalSellQty=0, NetQty=0.01
+2025-06-20 04:29:30,825 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB_CALC] User 1, Symbol AUDCHF: AllMarginsPerLot=[Decimal('648.2466762069007693342628946')], HighestMarginPerLot=648.2466762069007693342628946
+2025-06-20 04:29:30,826 - app.services.order_processing - DEBUG - [MARGIN_TOTAL_CONTRIB_EXIT] User 1, Symbol AUDCHF: CalculatedTotalMargin=6.48, ContributingOrders=1 (based on individual stored margins)
+2025-06-20 04:29:30,826 - app.services.order_processing - INFO - [MARGIN_PROCESS] User 1 Symbol AUDCHF: MarginBefore=0.00, MarginAfter=6.48, AdditionalMargin=6.48
+2025-06-20 04:29:30,871 - app.services.order_processing - INFO - [MARGIN_PROCESS] User 1: OriginalMarginDB=0E-8, CalculatedNewMargin=6.48
+2025-06-20 04:29:30,948 - INFO - orders - [PRE-CRUD] About to call create_order with: {'order_id': '6380278055', 'order_status': 'OPEN', 'order_user_id': 1, 'order_company_name': 'AUDCHF', 'order_type': 'BUY', 'order_price': Decimal('0.5303800000'), 'order_quantity': Decimal('0.01'), 'contract_value': Decimal('1000.0000000000'), 'margin': Decimal('6.482466762069007693342628946'), 'commission': Decimal('0.10'), 'stop_loss': None, 'take_profit': None, 'stoploss_id': None, 'takeprofit_id': None, 'status': 'OPEN'}
+2025-06-20 04:29:31,015 - INFO - orders - [MARGIN_COMMIT_CHECK] User 1 margin in session BEFORE commit: 6.48000000
+2025-06-20 04:29:31,053 - INFO - orders - User data cache updated for user 1 after placing order
+2025-06-20 04:29:31,536 - INFO - orders - Portfolio cache updated and websocket event published for user 1 after placing order.
+2025-06-20 04:29:31,545 - INFO - orders - Starting update_user_static_orders for user 1, user_type demo
+2025-06-20 04:29:31,546 - INFO - orders - Using order model: DemoUserOrder
+2025-06-20 04:29:31,559 - INFO - orders - Fetched 1 open orders for user 1
+2025-06-20 04:29:31,578 - INFO - orders - Fetched 0 pending orders for user 1
+2025-06-20 04:29:31,582 - INFO - orders - Updated static orders cache for user 1 with 1 open orders and 0 pending orders
+2025-06-20 04:29:47,320 - INFO - orders - Add stoploss request received - Order ID: 6380278055, User ID: 1
+2025-06-20 04:29:47,344 - INFO - orders - Generated stoploss_id: 8825123139 for order 6380278055
+2025-06-20 04:29:47,360 - INFO - orders - User 1 is_barclays_live_user: False
+2025-06-20 04:29:47,360 - INFO - orders - Non-Barclays user. Adding stoploss to order 6380278055 immediately
+2025-06-20 04:29:47,426 - INFO - orders - Starting update_user_static_orders for user 1, user_type demo
+2025-06-20 04:29:47,426 - INFO - orders - Using order model: DemoUserOrder
+2025-06-20 04:29:47,447 - INFO - orders - Fetched 1 open orders for user 1
+2025-06-20 04:29:47,466 - INFO - orders - Fetched 0 pending orders for user 1
+2025-06-20 04:29:47,479 - INFO - orders - Updated static orders cache for user 1 with 1 open orders and 0 pending orders
+2025-06-20 04:31:21,074 - INFO - orders - Cancel stoploss request received - Order ID: 6380278055, User ID: 1
+2025-06-20 04:31:21,167 - INFO - orders - User 1 is_barclays_live_user: False
+2025-06-20 04:31:21,260 - INFO - orders - Starting update_user_static_orders for user 1, user_type demo
+2025-06-20 04:31:21,261 - INFO - orders - Using order model: DemoUserOrder
+2025-06-20 04:31:21,269 - INFO - orders - Fetched 1 open orders for user 1
+2025-06-20 04:31:21,280 - INFO - orders - Fetched 0 pending orders for user 1
+2025-06-20 04:31:21,288 - INFO - orders - Updated static orders cache for user 1 with 1 open orders and 0 pending orders
+2025-06-20 04:31:30,210 - INFO - orders - Add stoploss request received - Order ID: 6380278055, User ID: 1
+2025-06-20 04:31:30,238 - INFO - orders - Generated stoploss_id: 8711924663 for order 6380278055
+2025-06-20 04:31:30,251 - INFO - orders - User 1 is_barclays_live_user: False
+2025-06-20 04:31:30,252 - INFO - orders - Non-Barclays user. Adding stoploss to order 6380278055 immediately
+2025-06-20 04:31:30,292 - INFO - orders - Starting update_user_static_orders for user 1, user_type demo
+2025-06-20 04:31:30,293 - INFO - orders - Using order model: DemoUserOrder
+2025-06-20 04:31:30,309 - INFO - orders - Fetched 1 open orders for user 1
+2025-06-20 04:31:30,322 - INFO - orders - Fetched 0 pending orders for user 1
+2025-06-20 04:31:30,332 - INFO - orders - Updated static orders cache for user 1 with 1 open orders and 0 pending orders

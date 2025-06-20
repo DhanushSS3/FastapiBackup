@@ -71,3 +71,8 @@ python-jose
 httpx
 pydantic_settings
 pydantic[email]
+fastapi
+sqlalchemy
+aiomysql
+python-multipart
+alembic
